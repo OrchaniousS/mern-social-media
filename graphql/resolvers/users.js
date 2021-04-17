@@ -9,7 +9,6 @@ const {
 } = require("../../util/validators");
 
 const User = require("../../models/User");
-const { assertWrappingType } = require("graphql");
 
 const generateToken = (user) => {
   return jwt.sign(
