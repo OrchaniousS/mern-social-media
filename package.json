@@ -4,6 +4,7 @@
   "description": "Social media app build with MERN stack and qrahpQL",
   "main": "index.js",
   "scripts": {
+    "serve":"node index.js",
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
