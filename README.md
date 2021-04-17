@@ -24,3 +24,10 @@
 | Authentication and Security |                 jsonwebtoken, bcryptjs                 |
 
 #
+
+## todo
+
+1. add registered user count
+2. add user online/offline icon
+3. add currently online users
+4. add user available list
