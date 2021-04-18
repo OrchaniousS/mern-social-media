@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Grid, Transition } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import { useQuery } from "@apollo/react-hooks";
 
 import PostCard from "../Components/PostCard";
