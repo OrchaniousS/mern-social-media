@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 import { FETCH_POSTS_QUERY } from "../Util/graphql";
+import CustomPopup from "../Util/CustomPopup";
 
 function DeleteButton({ postId, commentId, cb }) {
   const [confirm, setConfirm] = useState(false);
@@ -30,14 +31,19 @@ function DeleteButton({ postId, commentId, cb }) {
 
   return (
     <>
-      <Button
-        floated="right"
-        as="div"
-        color="red"
-        onClick={() => setConfirm(true)}
+      <CustomPopup
+        type="top"
+        content={`Delete ${commentId ? "comment" : "post"}`}
       >
-        <Icon style={{ margin: 0 }} name="trash" />
-      </Button>
+        <Button
+          floated="right"
+          as="div"
+          color="red"
+          onClick={() => setConfirm(true)}
+        >
+          <Icon style={{ margin: 0 }} name="trash" />
+        </Button>
+      </CustomPopup>
       <Confirm
         open={confirm}
         onCancel={() => setConfirm(false)}

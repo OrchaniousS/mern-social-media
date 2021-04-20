@@ -3,8 +3,6 @@ import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import {
   Form,
-  Label,
-  Icon,
   Grid,
   Dimmer,
   Loader,
@@ -18,6 +16,7 @@ import moment from "moment";
 import { AuthContext } from "../Context/auth";
 import LikeButton from "../Components/LikeButton";
 import DeleteButton from "../Components/DeleteButton";
+import PostsButton from "../Components/PostsButton";
 
 function SinglePost(props) {
   const postId = props.match.params.postId;
@@ -58,7 +57,6 @@ function SinglePost(props) {
         <Dimmer active inverted>
           <Loader inverted>Loading</Loader>
         </Dimmer>
-
         <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
       </Segment>
     );
@@ -83,7 +81,6 @@ function SinglePost(props) {
               style={boxShadow}
               src="https://react.semantic-ui.com/images/avatar/large/molly.png"
               size="medium"
-              // float="right"
               fluid
             />
           </Grid.Column>
@@ -98,18 +95,7 @@ function SinglePost(props) {
               <hr />
               <Card.Content extra>
                 <LikeButton user={user} post={{ id, likeCount, likes }} />
-                <Button
-                  as="div"
-                  labelPosition="right"
-                  onClick={() => console.log("posted")}
-                >
-                  <Button basic color="grey">
-                    <Icon name="comments" />
-                  </Button>
-                  <Label basic color="grey" pointing="left">
-                    {commentCount}
-                  </Label>
-                </Button>
+                <PostsButton post={{ id, commentCount }} />
                 {user && user.username === username && (
                   <DeleteButton postId={id} cb={deletePostCB} />
                 )}

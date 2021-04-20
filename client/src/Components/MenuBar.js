@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
-import { Menu } from "semantic-ui-react";
+import { Menu, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import { AuthContext } from "../Context/auth";
+import CustomPopup from "../Util/CustomPopup";
 
 function MenuBar() {
   const { user, logout } = useContext(AuthContext);
@@ -24,14 +25,30 @@ function MenuBar() {
         to="/"
       />
       <Menu.Menu position="right">
-        <Menu.Item
-          icon="settings"
-          name={user.username}
-          active={activeItem === user.username}
-          onClick={handleItemClick}
-          as={Link}
-          to={`/${user.username}`}
-        />
+        <CustomPopup type="menu" content="User settings">
+          <Menu.Item
+            content={
+              <>
+                {user.username}
+                <Image
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    margin: "0 0.3rem",
+                  }}
+                  src="https://react.semantic-ui.com/images/avatar/large/molly.png"
+                />
+              </>
+            }
+            icon="settings"
+            name={user.username}
+            active={activeItem === user.username}
+            onClick={handleItemClick}
+            as={Link}
+            to={`/${user.username}`}
+          />
+        </CustomPopup>
+
         <Menu.Item icon="logout" name="logout" onClick={logout} />
       </Menu.Menu>
     </Menu>

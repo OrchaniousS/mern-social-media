@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
+import CustomPopup from "../Util/CustomPopup";
+
 function LikeButton({ user, post: { id, likeCount, likes } }) {
   const [liked, setLiked] = useState(false);
 
@@ -33,13 +35,22 @@ function LikeButton({ user, post: { id, likeCount, likes } }) {
     </Button>
   );
 
+  const pronunciationCount =
+    likeCount > 1
+      ? "people has liked this post"
+      : likeCount === 0
+      ? "No one has liked this post yet"
+      : "1 person has liked this post";
+
   return (
-    <Button as="div" labelPosition="right" onClick={likePost}>
-      {likeButton}
-      <Label basic color="red" pointing="left">
-        {likeCount}
-      </Label>
-    </Button>
+    <CustomPopup type="top" content={pronunciationCount}>
+      <Button as="div" labelPosition="right" onClick={likePost}>
+        {likeButton}
+        <Label basic color="red" pointing="left">
+          {likeCount}
+        </Label>
+      </Button>
+    </CustomPopup>
   );
 }
 
