@@ -6,7 +6,6 @@ import { AuthContext } from "../Context/auth";
 
 function MenuBar() {
   const { user, logout } = useContext(AuthContext);
-  // console.log({ user }, { logout });
 
   const pathname = window.location.pathname;
   const path = pathname === "/" ? "home" : pathname.substr(1);
@@ -16,8 +15,22 @@ function MenuBar() {
 
   const menuBar = user ? (
     <Menu pointing secondary size="massive" color="red">
-      <Menu.Item name={user.username} active as={Link} to="/" />
+      <Menu.Item
+        name="home"
+        active={activeItem === "home"}
+        onClick={handleItemClick}
+        as={Link}
+        to="/"
+      />
       <Menu.Menu position="right">
+        <Menu.Item
+          icon="settings"
+          name={user.username}
+          active={activeItem === user.username}
+          onClick={handleItemClick}
+          as={Link}
+          to={`/${user.username}`}
+        />
         <Menu.Item name="logout" onClick={logout} />
       </Menu.Menu>
     </Menu>

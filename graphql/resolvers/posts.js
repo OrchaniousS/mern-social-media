@@ -31,8 +31,9 @@ module.exports = {
     async createPost(_, { body }, context) {
       const user = checkAuth(context);
 
-      console.log("post created");
-      if (body.trim() === "") throw new Error("Post body must not be empty");
+      if (body.trim() === "") {
+        throw new Error("Post body must not be empty");
+      }
 
       const newPost = new Post({
         body,
@@ -40,7 +41,9 @@ module.exports = {
         username: user.username,
         createdAt: new Date().toISOString(),
       });
+
       const post = await newPost.save();
+
       return post;
     },
     // Delete Post

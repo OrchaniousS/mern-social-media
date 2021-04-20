@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { Grid } from "semantic-ui-react";
+import {
+  Grid,
+  Transition,
+  Dimmer,
+  Loader,
+  Image,
+  Segment,
+} from "semantic-ui-react";
 import { useQuery } from "@apollo/react-hooks";
 
 import PostCard from "../Components/PostCard";
@@ -16,14 +23,22 @@ function Home() {
 
   const postsStatus = (x) =>
     loading ? (
-      <h1>Loading posts...</h1>
+      <Segment style={{ margin: "auto" }}>
+        <Dimmer active inverted>
+          <Loader inverted>Loading</Loader>
+        </Dimmer>
+
+        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+      </Segment>
     ) : (
-      x &&
-      x.map((post) => (
-        <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
-          <PostCard post={post} />
-        </Grid.Column>
-      ))
+      <Transition.Group>
+        {x &&
+          x.map((post) => (
+            <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
+              <PostCard post={post} />
+            </Grid.Column>
+          ))}
+      </Transition.Group>
     );
 
   const userState = user && (

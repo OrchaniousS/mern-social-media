@@ -49,7 +49,7 @@ module.exports = {
         } else {
           post.likes.push({
             username: user.username,
-            createdAt: new Date.toISOString(),
+            createdAt: new Date().toISOString(),
           });
         }
 
