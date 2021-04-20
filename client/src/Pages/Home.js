@@ -15,29 +15,33 @@ import { FETCH_POSTS_QUERY } from "../Util/graphql";
 import { AuthContext } from "../Context/auth";
 
 function Home() {
-  const { user, login } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const { loading, data: { getPosts: posts } = {} } = useQuery(
     FETCH_POSTS_QUERY
   );
 
+  const LoadingSegment = (
+    <Segment style={{ margin: "auto" }}>
+      <Dimmer active inverted>
+        <Loader inverted>Loading</Loader>
+      </Dimmer>
+      <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+    </Segment>
+  );
+
   const postsStatus = (x) =>
     loading ? (
-      <Segment style={{ margin: "auto" }}>
-        <Dimmer active inverted>
-          <Loader inverted>Loading</Loader>
-        </Dimmer>
-
-        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
-      </Segment>
+      LoadingSegment
     ) : (
       <Transition.Group>
-        {x &&
-          x.map((post) => (
-            <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
-              <PostCard post={post} />
-            </Grid.Column>
-          ))}
+        {x
+          ? x.map((post) => (
+              <Grid.Column key={post.id} style={{ marginBottom: 25 }}>
+                <PostCard post={post} />
+              </Grid.Column>
+            ))
+          : LoadingSegment}
       </Transition.Group>
     );
 
@@ -55,7 +59,7 @@ function Home() {
             display: "block",
             textAlign: "center",
             fontSize: "2rem",
-            marginTop: "0.8rem",
+            margin: "auto",
           }}
         >
           <h1>Recent Posts</h1>
