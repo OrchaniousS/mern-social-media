@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form } from "semantic-ui-react";
+import { Grid, Button, Form } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 
@@ -28,30 +28,37 @@ function PostForm() {
   }
 
   return (
-    <>
-      <Form onSubmit={onSubmit}>
-        <h2>Share a post:</h2>
-        <Form.Field>
-          <Form.Input
-            placeholder="Your thoughts?..."
-            name="body"
-            onChange={onChange}
-            value={values.body}
-            error={error ? true : false}
-          />
-          <Button type="submit" color="red">
-            Submit
-          </Button>
-        </Form.Field>
-      </Form>
-      {error && (
-        <div className="ui error message" style={{ marginBottom: 20 }}>
-          <ul className="list">
-            <li>{error.graphQLErrors[0].message}</li>
-          </ul>
-        </div>
-      )}
-    </>
+    <Grid columns={3}>
+      <Grid.Row>
+        <Form onSubmit={onSubmit}>
+          <h2>Share a post:</h2>
+          <Form.Field>
+            <Form.Input
+              placeholder="Your thoughts?..."
+              name="body"
+              onChange={onChange}
+              value={values.body}
+              error={error ? true : false}
+            />
+            <Button
+              disabled={values.body.trim() === ""}
+              icon="send"
+              type="submit"
+              color="red"
+            />
+          </Form.Field>
+        </Form>
+      </Grid.Row>
+      <Grid.Row>
+        {error && (
+          <div className="ui error message" style={{ marginBottom: 20 }}>
+            <ul className="list">
+              <li>{error.graphQLErrors[0].message}</li>
+            </ul>
+          </div>
+        )}
+      </Grid.Row>
+    </Grid>
   );
 }
 

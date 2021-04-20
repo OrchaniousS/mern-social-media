@@ -37,6 +37,42 @@
   }
 }
 
+/* .ui.form {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 1rem;
+} */
+/* 
+.ui.form,
+.ui.form .field {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+  flex-direction: row;
+  flex: 1 1 150px;
+  place-items: center;
+  margin: 0;
+  padding: 0 0.3rem 0 0;
+} */
+
+.ui.secondary.pointing.menu .dropdown.item:hover,
+.ui.secondary.pointing.menu .link.item:hover,
+.ui.secondary.pointing.menu a.item:hover {
+  background-color: transparent;
+  color: rgba(253, 89, 89, 0.856) !important;
+  border-color: rgba(253, 89, 89, 0.856) !important;
+  border: 0 solid red;
+  border-bottom-color: transparent;
+  border-bottom-style: solid;
+  border-radius: 0.3rem;
+  align-self: flex-end;
+  margin: 0 0 -2px;
+  padding: 0.85714286em 1.14285714em;
+  border-bottom-width: 0.2rem;
+  transition: color 0.2s ease-in;
+}
+
 .form-container {
   width: 28rem;
   margin: auto;

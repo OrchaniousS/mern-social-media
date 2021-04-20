@@ -45,11 +45,7 @@ function Home() {
       </Transition.Group>
     );
 
-  const userState = user && (
-    <Grid.Column>
-      <PostForm />
-    </Grid.Column>
-  );
+  const userState = user && <PostForm />;
 
   return (
     <div>
@@ -64,7 +60,16 @@ function Home() {
         >
           <h1>Recent Posts</h1>
         </Grid.Row>
-        {userState}
+        <Grid.Row
+          style={{
+            display: "flex",
+            textAlign: "left",
+            fontSize: "3rem",
+            margin: "1rem",
+          }}
+        >
+          {userState}
+        </Grid.Row>
         <Grid.Row>{postsStatus(posts)}</Grid.Row>
       </Grid>
     </div>
