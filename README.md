@@ -1,31 +1,40 @@
 # Social Media App with Mern Stack & GraphQL
 
-#
+Demo social app with cool features
 
-# 👨‍💻 Technologies Used
+# Setup:
 
-## 👨‍🏫 Client Side👨‍🏫
-
-|                Tag                |                               Name                               |
-| :-------------------------------: | :--------------------------------------------------------------: |
-|             Frontend              |                            JavaScript                            |
-| Frontend Frameworks and libraries | React (react-router-dom), Semantic UI, React Semantic UI, moment |
+| Server Side        | Client Side |
+| ------------------ | ----------- |
+| `1. npm i`         | `npm i`     |
+| `2. npm run serve` | `npm start` |
 
 #
 
-## 🛠 Server Side 🛠
+# 👨‍💻 Technologies Used:
 
-|             Tag             |                          Name                          |
-| :-------------------------: | :----------------------------------------------------: |
-|           Backend           |                        Node.js                         |
-|      Backend Framework      |                Express, graphql, Apollo                |
-|          Database           |                        MongoDB                         |
-|      Server maintence       | Apollo Server, dotenv, cors, nodemon(development mode) |
-| Authentication and Security |                 jsonwebtoken, bcryptjs                 |
+### 👨‍🏫 Client Side👨‍🏫
+
+- Frontend : JavaScript
+- Frontend Frameworks and libraries:
+  - React (react-router-dom)
+  - Semantic UI
+  - React Semantic UI
+  - moment
+
+### 🛠 Server Side 🛠
+
+- Backend Node.js
+- Backend Framework Express, graphql, Apollo
+- Database MongoDB
+- Server maintence Apollo Server, dotenv, cors, nodemon (development mode)
+- Authentication and Security jsonwebtoken, bcryptjs
 
 #
 
-## todo
+## Todo:
+
+#
 
 1. add registered user count
 2. add user online/offline icon
