@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Grid,
   Transition,
@@ -17,6 +17,22 @@ import { AuthContext } from "../Context/auth";
 function Home() {
   const { user } = useContext(AuthContext);
 
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth > 769) {
+        setIsDesktop(true);
+        setIsMobile(false);
+      } else {
+        setIsMobile(true);
+        setIsDesktop(false);
+      }
+    }
+    window.addEventListener("resize", handleResize);
+  }, []);
+
   const { loading, data: { getPosts: posts } = {} } = useQuery(
     FETCH_POSTS_QUERY
   );
@@ -30,49 +46,27 @@ function Home() {
     </Segment>
   );
 
-  const postsStatus = (x) =>
-    loading ? (
-      LoadingSegment
-    ) : (
-      <Transition.Group>
-        {x
-          ? x.map((post) => (
-              <Grid.Column key={post.id} style={{ marginBottom: 25 }}>
-                <PostCard post={post} />
-              </Grid.Column>
-            ))
-          : LoadingSegment}
-      </Transition.Group>
-    );
-
-  const userState = user && <PostForm />;
+  const postsStatus = loading ? (
+    LoadingSegment
+  ) : (
+    <Transition.Group duration={200}>
+      {posts &&
+        posts.map((post) => (
+          <Grid.Column key={post.id} style={{}}>
+            <PostCard post={post} />
+          </Grid.Column>
+        ))}
+    </Transition.Group>
+  );
 
   return (
-    <div>
-      <Grid columns={3}>
-        <Grid.Row
-          style={{
-            display: "block",
-            textAlign: "center",
-            fontSize: "2rem",
-            margin: "auto",
-          }}
-        >
-          <h1>Recent Posts</h1>
-        </Grid.Row>
-        <Grid.Row
-          style={{
-            display: "flex",
-            textAlign: "left",
-            fontSize: "3rem",
-            margin: "1rem",
-          }}
-        >
-          {userState}
-        </Grid.Row>
-        <Grid.Row>{postsStatus(posts)}</Grid.Row>
-      </Grid>
-    </div>
+    <Grid columns={3} rows={3} style={{ marginBottom: 25 }}>
+      <Grid.Row className="page-home-title">
+        <h1>Recent Posts</h1>
+      </Grid.Row>
+      {user && <PostForm />}
+      {posts && postsStatus}
+    </Grid>
   );
 }
 

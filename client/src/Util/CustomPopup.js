@@ -5,7 +5,7 @@ function CustomPopup({ type, content, children }) {
   return (
     <Popup
       inverted
-      position={type === "top" ? "top center" : "center"}
+      position={type === "top" ? "top center" : "bottom center"}
       content={content}
       trigger={children}
     />

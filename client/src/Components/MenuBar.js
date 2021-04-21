@@ -48,7 +48,6 @@ function MenuBar() {
             to={`/${user.username}`}
           />
         </CustomPopup>
-
         <Menu.Item icon="logout" name="logout" onClick={logout} />
       </Menu.Menu>
     </Menu>

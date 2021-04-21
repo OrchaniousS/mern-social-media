@@ -6,6 +6,8 @@ import { AuthProvider } from "./Context/auth";
 import AuthRoute from "./Util/AuthRoute";
 
 import MenuBar from "./Components/MenuBar";
+import Footer from "./Components/Footer";
+
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
@@ -30,6 +32,7 @@ function App() {
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/register" component={Register} />
           <Route exact path="/posts/:postId" component={SinglePost} />
+          <Footer />
         </Container>
       </Router>
     </AuthProvider>

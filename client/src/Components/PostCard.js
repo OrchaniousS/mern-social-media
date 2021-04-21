@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { Card, Image } from "semantic-ui-react";
+import { RiRadioButtonLine } from "react-icons/ri";
 
 import LikeButton from "./LikeButton";
 import PostsButton from "./PostsButton";
@@ -17,6 +18,13 @@ function PostCard({
     <DeleteButton postId={id} />
   );
 
+  const statusIndication = (x) =>
+    x ? (
+      <RiRadioButtonLine className="activeUser" />
+    ) : (
+      <RiRadioButtonLine className="unActiveUser" />
+    );
+
   return (
     <Card fluid style={{ boxShadow: "0 0 0.1rem black" }}>
       <Card.Content>
@@ -25,7 +33,9 @@ function PostCard({
           size="mini"
           src="https://react.semantic-ui.com/images/avatar/large/molly.png"
         />
-        <Card.Header>{username} Online/Offline</Card.Header>
+        <Card.Header style={{ margin: "auto" }}>
+          {statusIndication(user && user.username === username)} {username}
+        </Card.Header>
         <Card.Meta as={Link} to={`/posts/${id}`}>
           {moment(createdAt).fromNow()} by {username}
         </Card.Meta>

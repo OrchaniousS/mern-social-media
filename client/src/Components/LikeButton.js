@@ -37,7 +37,7 @@ function LikeButton({ user, post: { id, likeCount, likes } }) {
 
   const pronunciationCount =
     likeCount > 1
-      ? "people has liked this post"
+      ? `${likeCount} people has liked this post`
       : likeCount === 0
       ? "No one has liked this post yet"
       : "1 person has liked this post";

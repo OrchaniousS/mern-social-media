@@ -28,24 +28,26 @@ function PostForm() {
   }
 
   return (
-    <Grid columns={3}>
+    <Grid centered style={{ margin: "auto" }}>
       <Grid.Row>
         <Form onSubmit={onSubmit}>
-          <h2>Share a post:</h2>
           <Form.Field>
-            <Form.Input
-              placeholder="Your thoughts?..."
-              name="body"
-              onChange={onChange}
-              value={values.body}
-              error={error ? true : false}
-            />
-            <Button
-              disabled={values.body.trim() === ""}
-              icon="send"
-              type="submit"
-              color="red"
-            />
+            <Grid>
+              <h2>Share a post:</h2>
+              <Form.Input
+                placeholder="Your thoughts?..."
+                name="body"
+                onChange={onChange}
+                value={values.body}
+                error={error ? true : false}
+              />
+              <Button
+                // disabled={values.body.trim() === ""}
+                icon="send"
+                type="submit"
+                color="red"
+              />
+            </Grid>
           </Form.Field>
         </Form>
       </Grid.Row>

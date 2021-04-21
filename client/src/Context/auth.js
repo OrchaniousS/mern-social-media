@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 
 const initialState = {
   user: null,
+  status: null,
 };
 
 // Check if User`s Token Available
@@ -29,11 +30,13 @@ function authReducer(state, action) {
       return {
         ...state,
         user: action.payload,
+        status: "Online",
       };
     case "LOGOUT":
       return {
         ...state,
         user: null,
+        status: "Offline",
       };
     default:
       return state;

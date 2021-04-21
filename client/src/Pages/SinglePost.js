@@ -10,6 +10,7 @@ import {
   Segment,
   Card,
   Button,
+  Transition,
 } from "semantic-ui-react";
 import moment from "moment";
 
@@ -129,29 +130,33 @@ function SinglePost(props) {
               </Card>
             )}
             {comments.map((comment) => (
-              <Card fluid key={comment.id}>
-                <Button icon="comments" fluid disabled />
-                <Card.Content style={{ display: "flex", margin: "0.3rem" }}>
-                  <div>
-                    <Button color="red" disabled>
-                      <Image
-                        style={boxShadow}
-                        src="https://react.semantic-ui.com/images/avatar/large/molly.png"
-                        float="right"
-                        size="mini"
-                      />
-                      <Card.Header>{comment.username}</Card.Header>
-                    </Button>
-                    <Card.Meta>{moment(comment.createdAt).fromNow()}</Card.Meta>
-                  </div>
-                  <div style={{ margin: "1rem" }}>
-                    <Card.Description>{comment.body}</Card.Description>
-                  </div>
-                </Card.Content>
-                {user && user.username === comment.username && (
-                  <DeleteButton postId={id} commentId={comment.id} />
-                )}
-              </Card>
+              <Transition.Group>
+                <Card fluid key={comment.id}>
+                  <Button icon="comments" fluid disabled />
+                  <Card.Content style={{ display: "flex", margin: "0.3rem" }}>
+                    <div>
+                      <Button color="red" disabled>
+                        <Image
+                          style={boxShadow}
+                          src="https://react.semantic-ui.com/images/avatar/large/molly.png"
+                          float="right"
+                          size="mini"
+                        />
+                        <Card.Header>{comment.username}</Card.Header>
+                      </Button>
+                      <Card.Meta>
+                        {moment(comment.createdAt).fromNow()}
+                      </Card.Meta>
+                    </div>
+                    <div style={{ margin: "1rem" }}>
+                      <Card.Description>{comment.body}</Card.Description>
+                    </div>
+                  </Card.Content>
+                  {user && user.username === comment.username && (
+                    <DeleteButton postId={id} commentId={comment.id} />
+                  )}
+                </Card>
+              </Transition.Group>
             ))}
           </Grid.Column>
         </Grid.Row>

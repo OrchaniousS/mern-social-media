@@ -1,40 +1,22 @@
-.App {
-  text-align: center;
+body {
+  background: #e0eafc;
+  background: -webkit-linear-gradient(to right, #cfdef344, #e0eafc67);
+  background: linear-gradient(to right, #cfdef344, #e0eafc67);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#root {
+  margin: auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgb(255, 255, 255);
+  padding: 0.51rem;
+  margin-top: 0.51rem;
 }
 
 /* .ui.form {
@@ -55,6 +37,21 @@
   margin: 0;
   padding: 0 0.3rem 0 0;
 } */
+
+.activeUser {
+  color: green;
+}
+
+.unActiveUser {
+  color: red;
+}
+
+.page-home-title {
+  display: block !important;
+  text-align: center;
+  font-size: 2rem;
+  margin: auto;
+}
 
 .ui.secondary.pointing.menu .dropdown.item:hover,
 .ui.secondary.pointing.menu .link.item:hover,
