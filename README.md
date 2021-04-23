@@ -1,4 +1,4 @@
-# Social Media App with Mern Stack & GraphQL
+# Social Media App with Mern Stack & GraphQL | [Live](https://merng-social-orchan.netlify.app/)
 
 Demo social app with cool features
 
@@ -6,8 +6,9 @@ Demo social app with cool features
 
 | Server Side        | Client Side |
 | ------------------ | ----------- |
-| `1. npm i`         | `npm i`     |
-| `2. npm run serve` | `npm start` |
+| ------------------ | `cd client` |
+| `npm i`            | `npm i`     |
+| `npm run serve`    | `npm start` |
 
 #
 
@@ -36,7 +37,7 @@ Demo social app with cool features
 
 #
 
-1. add registered user count
-2. add user online/offline icon
-3. add currently online users
-4. add user available list
+1. Add registered user count.
+2. Add user online/offline icon - Done.
+3. Add currently online users.
+4. Add user available list.
