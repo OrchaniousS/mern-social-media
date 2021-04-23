@@ -57,7 +57,7 @@ function Home() {
     <Transition.Group duration={500}>
       {posts &&
         posts.map((post) => (
-          <Grid.Column key={post.id} style={{}}>
+          <Grid.Column key={post.id}>
             <PostCard post={post} />
           </Grid.Column>
         ))}
@@ -65,7 +65,10 @@ function Home() {
   );
 
   return (
-    <Grid columns={isDesktop ? 3 : 1}>
+    <Grid
+      columns={isDesktop ? 3 : 1}
+      style={{ margin: "-1rem -1rem -1rem -1rem" }}
+    >
       <Grid.Row className="page-home-title">
         <h1>Recent Posts</h1>
       </Grid.Row>

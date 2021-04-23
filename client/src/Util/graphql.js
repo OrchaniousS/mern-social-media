@@ -21,3 +21,15 @@ export const FETCH_POSTS_QUERY = gql`
     }
   }
 `;
+
+export const FETCH_USER_QUERY = gql`
+  {
+    getUsers {
+      id
+      email
+      username
+      createdAt
+      status
+    }
+  }
+`;

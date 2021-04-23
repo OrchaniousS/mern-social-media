@@ -17,11 +17,16 @@ function MenuBar() {
   const [logoutUser] = useMutation(USER_STATUS_MUTATION, {
     variables: {
       username: user && user.username,
-      status: "offline",
+      status: user && user.status,
     },
   });
 
   const handleItemClick = (e, { name }) => setActiveItem(name);
+
+  const handleLogout = () => {
+    logoutUser();
+    Logout();
+  };
 
   const menuBar = user ? (
     <Menu pointing secondary size="massive" color="red">
@@ -57,12 +62,7 @@ function MenuBar() {
             to={`/${user.username}`}
           />
         </CustomPopup>
-        <Menu.Item
-          icon="logout"
-          name="logout"
-          onClick={logoutUser}
-          onClick={Logout}
-        />
+        <Menu.Item icon="logout" name="logout" onClick={handleLogout} />
       </Menu.Menu>
     </Menu>
   ) : (
@@ -100,7 +100,7 @@ function MenuBar() {
 }
 
 const USER_STATUS_MUTATION = gql`
-  mutation logoutUser($username: username, $status: status) {
+  mutation logoutUser($username: String!, $status: String!) {
     logoutUser(username: $username, status: $status) {
       username
       status

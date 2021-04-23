@@ -24,9 +24,32 @@ const generateToken = (user) => {
 };
 
 module.exports = {
+  Query: {
+    async getUsers() {
+      try {
+        const users = await User.find();
+        return users;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+
+    async getUser(_, { userId }) {
+      const user = await User.findById({ userId });
+
+      try {
+        if (user) {
+          return user;
+        } else throw new Error("User does not exist");
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+  },
+
   Mutation: {
     // User Login
-    async login(_, { username, password }) {
+    async login(_, { username, password, status }) {
       const { errors, valid } = validateLoginInput(username, password);
 
       const user = await User.findOne({ username });
@@ -47,28 +70,34 @@ module.exports = {
         throw new UserInputError("Wrong credentials", { errors });
       }
 
-      const token = generateToken(user);
-
       const active = "online";
 
+      const userUpdate = await User.findOneAndUpdate(
+        { username },
+        { $set: { status: status && active } }
+      );
+      const loggedInUser = await userUpdate.save();
+
+      const token = generateToken(user);
+
       return {
+        loggedInUser,
         ...user._doc,
         id: user._id,
         token,
-        status: active,
       };
     },
 
+    // User Logout
     async logoutUser(_, { username, status }) {
       const offline = "offline";
 
       const user = await User.findOneAndUpdate(
         { username },
-        { status: offline }
+        { $set: { status: status && offline } }
       );
 
       const loggedOffUser = await user.save();
-
       return loggedOffUser;
     },
 

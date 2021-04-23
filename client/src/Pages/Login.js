@@ -15,6 +15,7 @@ function Login(props) {
   const initialState = {
     username: "",
     password: "",
+    status: "",
   };
 
   const { onChange, onSubmit, values } = useForm(
@@ -28,7 +29,7 @@ function Login(props) {
       props.history.push("/");
     },
     onError(err) {
-      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+      setErrors(err && err.graphQLErrors[0].extensions.exception.errors);
     },
     variables: values,
   });
@@ -42,6 +43,7 @@ function Login(props) {
       <Form noValidate onSubmit={onSubmit} className={loading ? "loading" : ""}>
         Login
         <Form.Input
+          icon="user"
           type="text"
           value={values.username}
           label="Username"
@@ -51,6 +53,7 @@ function Login(props) {
           error={errors.username ? true : false}
         />
         <Form.Input
+          icon="key"
           type="password"
           value={values.password}
           label="Password"
@@ -58,6 +61,13 @@ function Login(props) {
           name="password"
           onChange={onChange}
           error={errors.password ? true : false}
+        />
+        <Form.Input
+          type="text"
+          value={(values.status = "online")}
+          name="status"
+          style={{ display: "none" }}
+          onChange={onChange}
         />
         <Button type="submit" primary>
           Login
@@ -77,13 +87,14 @@ function Login(props) {
 }
 
 const LOGIN_USER = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
+  mutation login($username: String!, $password: String!, $status: String!) {
+    login(username: $username, password: $password, status: $status) {
       id
       email
       username
       createdAt
       token
+      status
     }
   }
 `;
