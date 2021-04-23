@@ -1,16 +1,25 @@
 import React, { useContext, useState } from "react";
 import { Menu, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
 
 import { AuthContext } from "../Context/auth";
 import CustomPopup from "../Util/CustomPopup";
 
 function MenuBar() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, Logout } = useContext(AuthContext);
 
   const pathname = window.location.pathname;
   const path = pathname === "/" ? "home" : pathname.substr(1);
   const [activeItem, setActiveItem] = useState(path);
+
+  const [logoutUser] = useMutation(USER_STATUS_MUTATION, {
+    variables: {
+      username: user && user.username,
+      status: "offline",
+    },
+  });
 
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
@@ -48,7 +57,12 @@ function MenuBar() {
             to={`/${user.username}`}
           />
         </CustomPopup>
-        <Menu.Item icon="logout" name="logout" onClick={logout} />
+        <Menu.Item
+          icon="logout"
+          name="logout"
+          onClick={logoutUser}
+          onClick={Logout}
+        />
       </Menu.Menu>
     </Menu>
   ) : (
@@ -84,5 +98,14 @@ function MenuBar() {
 
   return menuBar;
 }
+
+const USER_STATUS_MUTATION = gql`
+  mutation logoutUser($username: username, $status: status) {
+    logoutUser(username: $username, status: $status) {
+      username
+      status
+    }
+  }
+`;
 
 export default MenuBar;

@@ -130,7 +130,7 @@ function SinglePost(props) {
               </Card>
             )}
             {comments.map((comment) => (
-              <Transition.Group>
+              <Transition.Group duration={200}>
                 <Card fluid key={comment.id}>
                   <Button icon="comments" fluid disabled />
                   <Card.Content style={{ display: "flex", margin: "0.3rem" }}>

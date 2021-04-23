@@ -17,7 +17,16 @@ import { AuthContext } from "../Context/auth";
 function Home() {
   const { user } = useContext(AuthContext);
 
-  const [isDesktop, setIsDesktop] = useState(false);
+  const { loading, data: { getPosts: posts } = {} } = useQuery(
+    FETCH_POSTS_QUERY,
+    {
+      variables: {
+        user,
+      },
+    }
+  );
+
+  const [isDesktop, setIsDesktop] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -31,11 +40,7 @@ function Home() {
       }
     }
     window.addEventListener("resize", handleResize);
-  }, []);
-
-  const { loading, data: { getPosts: posts } = {} } = useQuery(
-    FETCH_POSTS_QUERY
-  );
+  }, [loading]);
 
   const LoadingSegment = (
     <Segment style={{ margin: "auto" }}>
@@ -49,7 +54,7 @@ function Home() {
   const postsStatus = loading ? (
     LoadingSegment
   ) : (
-    <Transition.Group duration={200}>
+    <Transition.Group duration={500}>
       {posts &&
         posts.map((post) => (
           <Grid.Column key={post.id} style={{}}>
@@ -60,7 +65,7 @@ function Home() {
   );
 
   return (
-    <Grid columns={3} rows={3} style={{ marginBottom: 25 }}>
+    <Grid columns={isDesktop ? 3 : 1}>
       <Grid.Row className="page-home-title">
         <h1>Recent Posts</h1>
       </Grid.Row>

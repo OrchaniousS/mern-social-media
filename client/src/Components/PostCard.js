@@ -34,7 +34,10 @@ function PostCard({
           src="https://react.semantic-ui.com/images/avatar/large/molly.png"
         />
         <Card.Header style={{ margin: "auto" }}>
-          {statusIndication(user && user.username === username)} {username}
+          {statusIndication(
+            user && user.username === username && user.status === "online"
+          )}{" "}
+          {username}
         </Card.Header>
         <Card.Meta as={Link} to={`/posts/${id}`}>
           {moment(createdAt).fromNow()} by {username}

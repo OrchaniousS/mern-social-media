@@ -3,7 +3,6 @@ import jwtDecode from "jwt-decode";
 
 const initialState = {
   user: null,
-  status: null,
 };
 
 // Check if User`s Token Available
@@ -21,7 +20,7 @@ if (localStorage.getItem("jwtToken")) {
 const AuthContext = createContext({
   user: null,
   login: (data) => {},
-  logout: () => {},
+  Logout: () => {},
 });
 
 function authReducer(state, action) {
@@ -30,13 +29,11 @@ function authReducer(state, action) {
       return {
         ...state,
         user: action.payload,
-        status: "Online",
       };
     case "LOGOUT":
       return {
         ...state,
         user: null,
-        status: "Offline",
       };
     default:
       return state;
@@ -54,7 +51,7 @@ function AuthProvider(props) {
     });
   }
 
-  function logout() {
+  function Logout() {
     localStorage.removeItem("jwtToken");
     dispatch({
       type: "LOGOUT",
@@ -63,7 +60,7 @@ function AuthProvider(props) {
 
   return (
     <AuthContext.Provider
-      value={{ user: state.user, login, logout }}
+      value={{ user: state.user, login, Logout }}
       {...props}
     />
   );

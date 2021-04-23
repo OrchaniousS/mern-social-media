@@ -16,6 +16,7 @@ const generateToken = (user) => {
       id: user.id,
       email: user.email,
       username: user.username,
+      status: user.status,
     },
     process.env.JWT_TOKEN,
     { expiresIn: "1h" }
@@ -48,12 +49,29 @@ module.exports = {
 
       const token = generateToken(user);
 
+      const active = "online";
+
       return {
         ...user._doc,
         id: user._id,
         token,
+        status: active,
       };
     },
+
+    async logoutUser(_, { username, status }) {
+      const offline = "offline";
+
+      const user = await User.findOneAndUpdate(
+        { username },
+        { status: offline }
+      );
+
+      const loggedOffUser = await user.save();
+
+      return loggedOffUser;
+    },
+
     // User Register
     async register(
       _,
@@ -83,12 +101,14 @@ module.exports = {
           },
         });
       }
+      const active = "online";
 
       const newUser = new User({
         email,
         username,
         password,
         createdAt: new Date().toISOString(),
+        status: active,
       });
 
       const res = await newUser.save();

@@ -1,45 +1,52 @@
 body {
-  background: #e0eafc;
-  background: -webkit-linear-gradient(to right, #cfdef344, #e0eafc67);
-  background: linear-gradient(to right, #cfdef344, #e0eafc67);
+  /* background: #e0eafc; */
+  /* background: -webkit-linear-gradient(to right, #cfdef344, #e0eafc67); */
+  /* background: linear-gradient(to right, #cfdef344, #e0eafc67); */
 }
 
 #root {
   margin: auto;
-  display: flex;
+  width: fit-content;
 }
 
 footer {
   position: fixed;
+  z-index: 4;
+  justify-content: center;
+  margin: auto;
+  display: flex;
   bottom: 0;
   right: 0;
   left: 0;
   background: rgb(255, 255, 255);
   padding: 0.51rem;
   margin-top: 0.51rem;
+  box-shadow: 0 0 0.2rem black;
 }
 
-/* .ui.form {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 1rem;
-} */
-/* 
-.ui.form,
-.ui.form .field {
-  display: flex;
-  flex-wrap: wrap;
-  text-align: left;
-  flex-direction: row;
-  flex: 1 1 150px;
-  place-items: center;
-  margin: 0;
-  padding: 0 0.3rem 0 0;
-} */
+@media only screen and (max-width: 767px) {
+  .ui.container {
+    width: 100% !important;
+    margin-left: 1em !important;
+    margin-right: 1em !important;
+  }
+}
 
 .activeUser {
   color: green;
+  animation: Spin 2s infinite;
+}
+
+@keyframes Spin {
+  from {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(0.9);
+  }
 }
 
 .unActiveUser {
