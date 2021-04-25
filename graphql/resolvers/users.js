@@ -150,5 +150,30 @@ module.exports = {
         token,
       };
     },
+
+    // Edit existing user
+    async editUser(_, { username, password }) {
+      const user = await User.findOneAndUpdate(
+        { username },
+        {
+          $set: {
+            username,
+            password: await bcrypt.hash(password, 12),
+          },
+        }
+      );
+
+      if (user) {
+        throw new UserInputError("username is taken", {
+          errors: {
+            username: "This username is taken",
+          },
+        });
+      }
+
+      const editedUser = await user.save();
+
+      return editedUser;
+    },
   },
 };
