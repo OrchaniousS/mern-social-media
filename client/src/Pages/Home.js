@@ -66,8 +66,8 @@ function Home() {
 
   return (
     <Grid
-      columns={isDesktop ? 3 : 1}
-      style={{ margin: "-1rem -1rem -1rem -1rem" }}
+      columns={isDesktop ? 3 : isMobile ? 1 : 2}
+      style={{ margin: "-1rem -1rem 3rem -1rem" }}
     >
       <Grid.Row className="page-home-title">
         <h1>Recent Posts</h1>

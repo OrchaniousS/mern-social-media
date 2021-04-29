@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { Card, Image } from "semantic-ui-react";
@@ -22,6 +22,7 @@ function PostCard({
   const deleteButton = user && user.username === username && (
     <DeleteButton postId={id} />
   );
+  // console.log(user);
 
   // useEffect(() => {
   //   if (getUserData) setUserCount(userCount + 1);

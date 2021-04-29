@@ -41,3 +41,4 @@ Demo social app with cool features
 2. Add user online/offline icon - Done.
 3. Add currently online users.
 4. Add user available list.
+5. Add user personal logo.

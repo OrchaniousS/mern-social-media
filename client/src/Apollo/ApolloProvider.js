@@ -1,7 +1,7 @@
 import React from "react";
 import ApolloClient from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { createHttpLink } from "apollo-link-http";
+import { createUploadLink } from "apollo-upload-client";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { setContext } from "apollo-link-context";
 
@@ -16,15 +16,17 @@ const authLink = setContext(() => {
   };
 });
 
-const httpLink = createHttpLink({
-  uri: "http://localhost:5000",
+const cors = {
+  origin: "*",
+  credentials: true,
+};
+
+const httpLink = createUploadLink({
+  uri: "http://localhost:5000/graphql",
 });
 
 const client = new ApolloClient({
-  cors: {
-    origin: "*",
-    credentials: true,
-  },
+  cors: cors,
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });

@@ -1,6 +1,8 @@
 require("dotenv").config({ path: ".env" });
-const { ApolloServer } = require("apollo-server");
+const { ApolloServer } = require("apollo-server-express");
 const mongoose = require("mongoose");
+const express = require("express");
+const cors = require("cors");
 
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers/index");
@@ -17,19 +19,19 @@ const server = new ApolloServer({
   context: ({ req }) => ({ req }),
 });
 
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  })
-  .then(() => {
-    console.log("connected to database :)");
-    return server.listen({ port: PORT });
-  })
-  .then((res) => {
-    console.log(`server running at ${res.url}`);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+const app = express();
+server.applyMiddleware({ app });
+
+app.use(express.static("public"));
+app.use(cors());
+
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+});
+
+app.listen({ port: PORT }, () => {
+  console.log("connected to database :)");
+  console.log(`server running at http://localhost:${PORT}`);
+});

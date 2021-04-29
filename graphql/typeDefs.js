@@ -29,12 +29,19 @@ module.exports = gql`
     username: String!
     createdAt: String!
     status: String!
+    logo: File!
   }
-  input RegisterInput {
-    username: String!
-    password: String!
-    confirmPassword: String!
-    email: String!
+  # input RegisterInput {
+  #   username: String!
+  #   password: String!
+  #   confirmPassword: String!
+  #   email: String!
+  #   logo: Upload!
+  # }
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
   }
   type Query {
     getPosts: [Post]
@@ -43,9 +50,18 @@ module.exports = gql`
     getUser(userId: ID!): User
   }
   type Mutation {
-    register(registerInput: RegisterInput): User!
+    register(
+      # registerInput: RegisterInput
+      username: String!
+      password: String!
+      confirmPassword: String!
+      email: String!
+      logo: Upload!
+    ): User!
+    # uploadFile(file: Upload!): File!
     login(username: String!, password: String!, status: String!): User!
     logoutUser(username: String!, status: String!): User!
+    editUser(username: String!, password: String!): User!
     createPost(body: String!): Post!
     deletePost(postId: ID!): String!
     createComment(postId: String!, body: String!): Post!
