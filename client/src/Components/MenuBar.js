@@ -2,10 +2,11 @@ import React, { useContext, useState } from "react";
 import { Menu, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import gql from "graphql-tag";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 
 import { AuthContext } from "../Context/auth";
 import CustomPopup from "../Util/CustomPopup";
+import { FETCH_USER_QUERY } from "../Util/graphql";
 
 function MenuBar() {
   const { user, Logout } = useContext(AuthContext);
@@ -20,6 +21,14 @@ function MenuBar() {
       status: user && user.status,
     },
   });
+
+  const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
+
+  function userLogo(x) {
+    for (var userX of x) {
+      if (userX.username === user.username) return userX.logo;
+    }
+  }
 
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
@@ -50,7 +59,7 @@ function MenuBar() {
                     height: "20px",
                     margin: "0 0.3rem",
                   }}
-                  src="https://react.semantic-ui.com/images/avatar/large/molly.png"
+                  src={userLogo(getUserData)}
                 />
               </>
             }
@@ -59,7 +68,7 @@ function MenuBar() {
             active={activeItem === user.username}
             onClick={handleItemClick}
             as={Link}
-            to={`/${user.username}`}
+            to={`/users/${user.username}`}
           />
         </CustomPopup>
         <Menu.Item icon="logout" name="logout" onClick={handleLogout} />

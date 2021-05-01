@@ -18,6 +18,7 @@ import { AuthContext } from "../Context/auth";
 import LikeButton from "../Components/LikeButton";
 import DeleteButton from "../Components/DeleteButton";
 import PostsButton from "../Components/PostsButton";
+import { FETCH_USER_QUERY } from "../Util/graphql";
 
 function SinglePost(props) {
   const postId = props.match.params.postId;
@@ -51,6 +52,22 @@ function SinglePost(props) {
     props.history.push("/");
   }
 
+  const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
+
+  function getUserLogo(data, commentUsername) {
+    for (var userData of data) {
+      if (
+        (userData.username === posts.username && !commentUsername) ||
+        commentUsername === userData.username
+      ) {
+        return userData.logo;
+      }
+      if (commentUsername === userData.username) {
+        return userData.logo;
+      }
+    }
+  }
+
   let postMarkup;
   if (!posts) {
     postMarkup = (
@@ -80,7 +97,7 @@ function SinglePost(props) {
             <Button icon="image" color="red" disabled fluid />
             <Image
               style={boxShadow}
-              src="https://react.semantic-ui.com/images/avatar/large/molly.png"
+              src={getUserLogo(getUserData)}
               size="medium"
               fluid
             />
@@ -130,15 +147,15 @@ function SinglePost(props) {
               </Card>
             )}
             {comments.map((comment) => (
-              <Transition.Group duration={200}>
-                <Card fluid key={comment.id}>
+              <Transition.Group duration={200} key={comment.id}>
+                <Card fluid>
                   <Button icon="comments" fluid disabled />
                   <Card.Content style={{ display: "flex", margin: "0.3rem" }}>
                     <div>
                       <Button color="red" disabled>
                         <Image
                           style={boxShadow}
-                          src="https://react.semantic-ui.com/images/avatar/large/molly.png"
+                          src={getUserLogo(getUserData, comment.username)}
                           float="right"
                           size="mini"
                         />

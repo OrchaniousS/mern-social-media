@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Container } from "semantic-ui-react";
 
@@ -17,18 +17,14 @@ import User from "./Pages/User";
 import "semantic-ui-css/semantic.min.css";
 import "./App.css";
 
-import { AuthContext } from "./Context/auth";
-
 function App() {
-  const { user } = useContext(AuthContext);
-
   return (
     <AuthProvider>
       <Router>
         <Container>
           <MenuBar />
           <Route exact path="/" component={Home} />
-          <AuthRoute exact path={`/${user}`} user={user} component={User} />
+          <AuthRoute exact type="User" path="/users/:user" component={User} />
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/register" component={Register} />
           <Route exact path="/posts/:postId" component={SinglePost} />

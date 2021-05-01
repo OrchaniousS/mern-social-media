@@ -11,7 +11,6 @@ const {
 } = require("../../util/validators");
 
 const User = require("../../models/User");
-const File = require("../../models/File");
 
 const generateToken = (user) => {
   return jwt.sign(
@@ -25,6 +24,16 @@ const generateToken = (user) => {
     { expiresIn: "1h" }
   );
 };
+
+function generateRandomString(len) {
+  var randomString = "";
+  var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var charsLength = chars.length;
+  for (var i = 0; i < len; i++) {
+    randomString += chars.charAt(Math.floor(Math.random() * charsLength));
+  }
+  return randomString;
+}
 
 module.exports = {
   Query: {
@@ -88,6 +97,7 @@ module.exports = {
         ...user._doc,
         id: user._id,
         token,
+        user,
       };
     },
 
@@ -131,26 +141,19 @@ module.exports = {
         });
       }
 
-      // logo
-      //   .then((file) => {
+      // User Logo
 
-      const { createReadStream, filename, mimetype, encoding } = await logo;
+      const { createReadStream, filename } = await logo;
       const stream = createReadStream();
-      const pathname = path.join(__dirname, `/public/images/${filename}`);
+
+      const { ext } = path.parse(filename);
+      const randomLogoName = generateRandomString(12) + ext;
+
+      const pathname = path.join(
+        process.cwd(),
+        `/public/images/${randomLogoName}`
+      );
       await stream.pipe(fs.createWriteStream(pathname));
-
-      //   return { filename: `http://localhost:5000/images/${filename}` };
-      //   // return file;
-      // })
-      // .catch((err) => console.log(err));
-
-      // return {
-      // logo= logo
-      //   ? `http://localhost:5000/images/${filename}`
-      //   : "https://react.semantic-ui.com/images/avatar/large/molly.png",
-      // url=`http://localhost:5000/images/${filename}`,
-      // };
-      // }
 
       const newUser = new User({
         email,
@@ -159,12 +162,8 @@ module.exports = {
         createdAt: new Date().toISOString(),
         status: "online",
         logo: logo
-          ? `http://localhost:5000/images/${filename}`
+          ? `http://localhost:5000/images/${randomLogoName}`
           : "https://react.semantic-ui.com/images/avatar/large/molly.png",
-        // : logo
-        //   ? `http://localhost:5000/images/${filename}`
-        //   : "https://react.semantic-ui.com/images/avatar/large/molly.png",
-        // url: `http://localhost:5000/images/${filename}`,
       });
 
       const res = await newUser.save();

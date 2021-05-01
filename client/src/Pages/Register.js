@@ -36,21 +36,8 @@ function Register(props) {
     variables: values,
   });
 
-  // const [uploadedFile] = useMutation(UPLOAD_FILE, {
-  //   update(_, { file }) {
-  //     context.login(file);
-  //     // context.login(userData);
-  //     // props.history.push("/");
-  //   },
-  //   onError(err) {
-  //     setErrors(err.graphQLErrors[0].extensions.exception.errors);
-  //   },
-  //   variables: values,
-  // });
-
   function RegisterUserCallback() {
     addUser();
-    // uploadedFile();
   }
 
   return (
@@ -101,7 +88,6 @@ function Register(props) {
           icon="image"
           type="file"
           accept="image/*"
-          defaultValue={values.logo}
           label="Profile Image"
           name="logo"
           onChange={onChange}
@@ -111,17 +97,15 @@ function Register(props) {
           Register
         </Button>
       </Form>
-      <>
-        {Object.keys(errors).length > 0 && (
-          <div className="ui error message">
-            <ul className="list">
-              {Object.values(errors).map((value) => (
-                <li key={value}>{value}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </>
+      {Object.keys(errors).length > 0 && (
+        <div className="ui error message">
+          <ul className="list">
+            {Object.values(errors).map((value) => (
+              <li key={value}>{value}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
@@ -146,21 +130,9 @@ const REGISTER_USER = gql`
       username
       createdAt
       token
-      logo {
-        filename
-        mimetype
-        encoding
-      }
+      logo
     }
   }
 `;
-
-// const UPLOAD_FILE = gql`
-//   mutation uploadFile($file: Upload!) {
-//     uploadFile(file: $file) {
-//       url
-//     }
-//   }
-// `;
 
 export default Register;

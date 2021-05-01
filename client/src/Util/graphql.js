@@ -30,6 +30,15 @@ export const FETCH_USER_QUERY = gql`
       username
       createdAt
       status
+      logo
+    }
+  }
+`;
+
+export const FETCH_SINGLE_USER_QUERY = gql`
+  {
+    getUser {
+      userId
     }
   }
 `;

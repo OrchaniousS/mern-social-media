@@ -15,20 +15,18 @@ function PostCard({
   post: { body, createdAt, id, username, likeCount, commentCount, likes },
 }) {
   const { user } = useContext(AuthContext);
-  // const [userCount, setUserCount] = useState(0);
 
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
   const deleteButton = user && user.username === username && (
     <DeleteButton postId={id} />
   );
-  // console.log(user);
 
-  // useEffect(() => {
-  //   if (getUserData) setUserCount(userCount + 1);
-  // }, []);
+  // const { logo } = getUserData.filter(
+  //   (item) => item.username === username && item
+  // )[0];
 
-  // console.log(getUserData, getUserData.length);
+  // console.log(logo);
 
   function statusIndication(x) {
     for (var user of x) {
@@ -41,14 +39,16 @@ function PostCard({
     }
   }
 
+  function userLogo(x) {
+    for (var userX of x) {
+      if (userX.username === username) return userX.logo;
+    }
+  }
+
   return (
     <Card fluid style={{ boxShadow: "0 0 0.1rem black" }}>
       <Card.Content>
-        <Image
-          floated="right"
-          size="mini"
-          src="https://react.semantic-ui.com/images/avatar/large/molly.png"
-        />
+        <Image floated="right" size="mini" src={userLogo(getUserData)} />
         <Card.Header style={{ margin: "auto" }}>
           {getUserData && statusIndication(getUserData)} {username}
         </Card.Header>
