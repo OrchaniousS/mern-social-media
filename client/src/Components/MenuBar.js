@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { AuthContext } from "../Context/auth";
 import CustomPopup from "../Util/CustomPopup";
 import { FETCH_USER_QUERY } from "../Util/graphql";
+import UserCard from "./UserCard";
 
 function MenuBar() {
   const { user, Logout } = useContext(AuthContext);
@@ -24,12 +25,6 @@ function MenuBar() {
 
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
-  function userLogo(x) {
-    for (var userX of x) {
-      if (userX.username === user.username) return userX.logo;
-    }
-  }
-
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
   const handleLogout = () => {
@@ -38,7 +33,7 @@ function MenuBar() {
   };
 
   const menuBar = user ? (
-    <Menu pointing secondary size="massive" color="red">
+    <Menu pointing secondary size="huge" color="red">
       <Menu.Item
         icon="home"
         name="home"
@@ -59,7 +54,7 @@ function MenuBar() {
                     height: "20px",
                     margin: "0 0.3rem",
                   }}
-                  src={userLogo(getUserData)}
+                  src={UserCard(getUserData, user)}
                 />
               </>
             }
@@ -71,7 +66,7 @@ function MenuBar() {
             to={`/users/${user.username}`}
           />
         </CustomPopup>
-        <Menu.Item icon="logout" name="logout" onClick={handleLogout} />
+        <Menu.Item icon="log out" name="logout" onClick={handleLogout} />
       </Menu.Menu>
     </Menu>
   ) : (

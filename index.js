@@ -22,8 +22,13 @@ const server = new ApolloServer({
 const app = express();
 server.applyMiddleware({ app });
 
+var corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
+
 app.use(express.static("public"));
-app.use(cors());
+app.use(cors(corsOptions));
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,

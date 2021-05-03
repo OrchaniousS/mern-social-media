@@ -142,7 +142,6 @@ module.exports = {
       }
 
       // User Logo
-
       const { createReadStream, filename } = await logo;
       const stream = createReadStream();
 
@@ -153,7 +152,7 @@ module.exports = {
         process.cwd(),
         `/public/images/${randomLogoName}`
       );
-      await stream.pipe(fs.createWriteStream(pathname));
+      stream.pipe(fs.createWriteStream(pathname));
 
       const newUser = new User({
         email,

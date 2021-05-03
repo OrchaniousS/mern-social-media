@@ -8,7 +8,9 @@ export const useForm = (callback, initialState = {}) => {
       ...values,
       [event.target.name]:
         event.target.name === "logo"
-          ? event.target.files[0]
+          ? event.target.files
+            ? event.target.files[0]
+            : undefined
           : event.target.value,
     });
   };

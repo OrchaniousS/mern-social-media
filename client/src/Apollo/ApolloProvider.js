@@ -16,17 +16,15 @@ const authLink = setContext(() => {
   };
 });
 
-const cors = {
-  origin: "*",
-  credentials: true,
-};
-
 const httpLink = createUploadLink({
   uri: "http://localhost:5000/graphql",
 });
 
 const client = new ApolloClient({
-  cors: cors,
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });

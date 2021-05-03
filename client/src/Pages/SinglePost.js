@@ -99,7 +99,6 @@ function SinglePost(props) {
               style={boxShadow}
               src={getUserLogo(getUserData)}
               size="medium"
-              fluid
             />
           </Grid.Column>
           <Grid.Column width={10}>
@@ -123,7 +122,7 @@ function SinglePost(props) {
               <Card fluid>
                 <Button icon="comment" color="brown" fluid disabled />
                 <Card.Content>
-                  <p> Post a comment:</p>
+                  <p>Post a comment:</p>
                   <Form>
                     <div className="ui action input">
                       <input

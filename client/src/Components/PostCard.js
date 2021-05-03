@@ -5,6 +5,7 @@ import { Card, Image } from "semantic-ui-react";
 import { RiRadioButtonLine } from "react-icons/ri";
 import { useQuery } from "@apollo/react-hooks";
 
+import UserCard from "./UserCard";
 import LikeButton from "./LikeButton";
 import PostsButton from "./PostsButton";
 import DeleteButton from "./DeleteButton";
@@ -39,16 +40,14 @@ function PostCard({
     }
   }
 
-  function userLogo(x) {
-    for (var userX of x) {
-      if (userX.username === username) return userX.logo;
-    }
-  }
-
   return (
     <Card fluid style={{ boxShadow: "0 0 0.1rem black" }}>
       <Card.Content>
-        <Image floated="right" size="mini" src={userLogo(getUserData)} />
+        <Image
+          floated="right"
+          size="mini"
+          src={UserCard(getUserData, username)}
+        />
         <Card.Header style={{ margin: "auto" }}>
           {getUserData && statusIndication(getUserData)} {username}
         </Card.Header>
