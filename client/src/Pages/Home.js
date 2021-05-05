@@ -8,6 +8,7 @@ import {
   Segment,
 } from "semantic-ui-react";
 import { useQuery } from "@apollo/react-hooks";
+import Fade from "react-reveal/Fade";
 
 import PostCard from "../Components/PostCard";
 import PostForm from "../Components/PostForm";
@@ -65,18 +66,21 @@ function Home() {
   );
 
   return (
-    <Grid
-      columns={isDesktop ? 3 : isMobile ? 1 : 2}
-      style={{
-        margin: "-1rem -1rem 3rem 1rem",
-      }}
-    >
-      <Grid.Row className="page-home-title">
-        <h1>Recent Posts</h1>
-        {user && <PostForm />}
-      </Grid.Row>
-      {posts && postsStatus}
-    </Grid>
+    <Fade big={isDesktop} cascade={isMobile}>
+      <Grid
+        columns={isDesktop ? 3 : isMobile ? 1 : 2}
+        style={{
+          margin: "-1rem -1rem 3rem 1rem",
+        }}
+        className="page-home"
+      >
+        <Grid.Row className="page-home-title">
+          <h1>Recent Posts</h1>
+          {user && <PostForm />}
+        </Grid.Row>
+        {posts && postsStatus}
+      </Grid>
+    </Fade>
   );
 }
 

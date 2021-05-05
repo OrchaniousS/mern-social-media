@@ -4,6 +4,16 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const fs = require("fs");
+const AWS = require("aws-sdk");
+
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+});
+
+const s3Bucket = process.env.S3_BUCKET;
+
+const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 
 const {
   validateRegisterInput,
@@ -121,7 +131,8 @@ module.exports = {
         username,
         email,
         password,
-        confirmPassword
+        confirmPassword,
+        logo
       );
       if (!valid) {
         throw new UserInputError("Errors", { errors });
@@ -148,11 +159,23 @@ module.exports = {
       const { ext } = path.parse(filename);
       const randomLogoName = generateRandomString(12) + ext;
 
-      const pathname = path.join(
-        process.cwd(),
-        `/public/images/${randomLogoName}`
-      );
-      stream.pipe(fs.createWriteStream(pathname));
+      // Hard-drive filesystem save
+      // const pathname = path.join(
+      //   process.cwd(),
+      //   `/public/images/${randomLogoName}`
+      // );
+      // stream.pipe(fs.createWriteStream(pathname));
+
+      const uploadParams = {
+        Bucket: s3Bucket,
+        Key: randomLogoName,
+        Body: stream,
+        ContentType: filetype,
+        ACL: "public-read",
+      };
+      const result = await s3.upload(uploadParams).promise();
+
+      console.log(result);
 
       const newUser = new User({
         email,
@@ -160,9 +183,8 @@ module.exports = {
         password,
         createdAt: new Date().toISOString(),
         status: "online",
-        logo: logo
-          ? `http://localhost:5000/images/${randomLogoName}`
-          : "https://react.semantic-ui.com/images/avatar/large/molly.png",
+        // logo: `http://localhost:5000/images/${randomLogoName}`,
+        logo,
       });
 
       const res = await newUser.save();

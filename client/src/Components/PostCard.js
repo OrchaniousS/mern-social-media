@@ -31,11 +31,11 @@ function PostCard({
 
   function statusIndication(x) {
     for (var user of x) {
-      if (user.username === username && user.status === "online") {
-        return <RiRadioButtonLine className="activeUser" />;
-      }
-      if (user.username === username && user.status === "offline") {
-        return <RiRadioButtonLine className="unActiveUser" />;
+      if (user.username === username) {
+        if (user.status === "online")
+          return <RiRadioButtonLine className="activeUser" />;
+        if (user.status === "offline")
+          return <RiRadioButtonLine className="unActiveUser" />;
       }
     }
   }
@@ -47,6 +47,8 @@ function PostCard({
           floated="right"
           size="mini"
           src={UserCard(getUserData, username)}
+          // onerror="this.src='
+          // https://react.semantic-ui.com/images/avatar/large/molly.png"
         />
         <Card.Header style={{ margin: "auto" }}>
           {getUserData && statusIndication(getUserData)} {username}

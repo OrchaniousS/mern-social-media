@@ -50,7 +50,7 @@ footer {
 }
 
 @media only screen and (max-width: 767px) {
-  .ui.action.input {
+  .ui.action.input.comment {
     max-width: 85%;
   }
 
@@ -80,6 +80,10 @@ footer {
 
 .unActiveUser {
   color: red;
+}
+
+div.ui.one.column.grid.page-home {
+  transition: all 0.5s ease-in;
 }
 
 .page-home-title {

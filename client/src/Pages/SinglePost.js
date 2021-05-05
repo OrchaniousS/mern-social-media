@@ -124,7 +124,7 @@ function SinglePost(props) {
                 <Card.Content>
                   <p>Post a comment:</p>
                   <Form>
-                    <div className="ui action input">
+                    <div className="ui action input comment">
                       <input
                         type="text"
                         placeholder="What`s on your mind...?"

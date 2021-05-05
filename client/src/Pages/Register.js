@@ -43,7 +43,6 @@ function Register(props) {
       <Form noValidate onSubmit={onSubmit} className={loading ? "loading" : ""}>
         Register
         <Form.Input
-          icon="user"
           type="text"
           value={values.username}
           label="Username"
@@ -51,9 +50,14 @@ function Register(props) {
           name="username"
           onChange={onChange}
           error={errors.username ? true : false}
+          required
+          action={{
+            color: "red",
+            icon: "user",
+            disabled: true,
+          }}
         />
         <Form.Input
-          icon="mail"
           type="email"
           value={values.email}
           label="Email"
@@ -61,9 +65,14 @@ function Register(props) {
           name="email"
           onChange={onChange}
           error={errors.email ? true : false}
+          required
+          action={{
+            color: "red",
+            icon: "mail",
+            disabled: true,
+          }}
         />
         <Form.Input
-          icon="key"
           type="password"
           value={values.password}
           label="Password"
@@ -71,9 +80,14 @@ function Register(props) {
           name="password"
           onChange={onChange}
           error={errors.password ? true : false}
+          required
+          action={{
+            color: "red",
+            icon: "key",
+            disabled: true,
+          }}
         />
         <Form.Input
-          icon="key"
           type="password"
           value={values.confirmPassword}
           label="Confirm Password"
@@ -81,15 +95,26 @@ function Register(props) {
           name="confirmPassword"
           onChange={onChange}
           error={errors.confirmPassword ? true : false}
+          required
+          action={{
+            color: "red",
+            icon: "key",
+            disabled: true,
+          }}
         />
         <Form.Input
-          icon="image"
           type="file"
           accept="image/*"
           label="Profile Image"
           name="logo"
           onChange={onChange}
           error={errors.logo ? true : false}
+          required
+          action={{
+            color: "red",
+            icon: "image",
+            disabled: true,
+          }}
         />
         <Button type="submit" primary>
           Register

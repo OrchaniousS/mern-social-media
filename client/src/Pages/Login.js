@@ -43,7 +43,6 @@ function Login(props) {
       <Form noValidate onSubmit={onSubmit} className={loading ? "loading" : ""}>
         Login
         <Form.Input
-          icon="user"
           type="text"
           value={values.username}
           label="Username"
@@ -51,9 +50,12 @@ function Login(props) {
           name="username"
           onChange={onChange}
           error={errors.username ? true : false}
+          action={{
+            color: "red",
+            icon: "user",
+          }}
         />
         <Form.Input
-          icon="key"
           type="password"
           value={values.password}
           label="Password"
@@ -61,6 +63,10 @@ function Login(props) {
           name="password"
           onChange={onChange}
           error={errors.password ? true : false}
+          action={{
+            color: "red",
+            icon: "key",
+          }}
         />
         <Form.Input
           type="text"
