@@ -55,17 +55,18 @@ function SinglePost(props) {
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
   function getUserLogo(data, commentUsername) {
-    for (var userData of data) {
-      if (
-        (userData.username === posts.username && !commentUsername) ||
-        commentUsername === userData.username
-      ) {
-        return userData.logo;
+    if (data)
+      for (var userData of data) {
+        if (
+          (userData.username === posts.username && !commentUsername) ||
+          commentUsername === userData.username
+        ) {
+          return userData.logo;
+        }
+        if (commentUsername === userData.username) {
+          return userData.logo;
+        }
       }
-      if (commentUsername === userData.username) {
-        return userData.logo;
-      }
-    }
   }
 
   let postMarkup;

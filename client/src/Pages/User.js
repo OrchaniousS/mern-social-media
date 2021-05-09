@@ -17,7 +17,14 @@ function User() {
   const { user } = useContext(AuthContext);
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
-  const [values, setValues] = useState();
+  const initialState = {
+    username: "",
+    password: "",
+    confirmNewPassword: "",
+    email: "",
+  };
+
+  const [values, setValues] = useState(initialState);
 
   // Future edit user option
   // const initialState = {
@@ -40,7 +47,7 @@ function User() {
 
   useEffect(() => {
     if (getUserData) {
-      getUserData.filter((item) => {
+      return getUserData.filter((item) => {
         try {
           return user && item.username === user.username && setValues(item);
         } catch (err) {
@@ -49,7 +56,7 @@ function User() {
         }
       });
     }
-  }, [getUserData, user]);
+  });
 
   return user ? (
     <Container style={{ textAlign: "center", margin: "1rem" }}>
@@ -74,7 +81,7 @@ function User() {
                 // error={errors.username ? true : false}
               />
               <Form.Input
-                icon="email"
+                icon="mail"
                 type="email"
                 defaultValue={values && values.email}
                 label="Email"
@@ -85,7 +92,7 @@ function User() {
                 // error={errors.username ? true : false}
               />
               <Form.Input
-                icon="password"
+                icon="key"
                 type="password"
                 // defaultValue={user.username}
                 label="New Password"
@@ -95,7 +102,7 @@ function User() {
                 // error={errors.username ? true : false}
               />
               <Form.Input
-                icon="password"
+                icon="key"
                 type="password"
                 // defaultValue={user.username}
                 label="New Password"

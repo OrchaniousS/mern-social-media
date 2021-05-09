@@ -10,6 +10,7 @@ import {
 import { useQuery } from "@apollo/react-hooks";
 import Fade from "react-reveal/Fade";
 
+import UserList from "../Components/UserList";
 import PostCard from "../Components/PostCard";
 import PostForm from "../Components/PostForm";
 import { FETCH_POSTS_QUERY } from "../Util/graphql";
@@ -74,6 +75,9 @@ function Home() {
         }}
         className="page-home"
       >
+        <Grid.Row>
+          <UserList />
+        </Grid.Row>
         <Grid.Row className="page-home-title">
           <h1>Recent Posts</h1>
           {user && <PostForm />}

@@ -6,14 +6,17 @@ const path = require("path");
 const fs = require("fs");
 const AWS = require("aws-sdk");
 
-AWS.config.update({
-  accessKeyId: process.env.S3_ACCESS_KEY_ID,
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+const bucketName = process.env.AWS_BUCKET_NAME;
+const bucketRegion = process.env.AWS_BUCKET_REGION;
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+
+const s3 = new AWS.S3({
+  bucketRegion,
+  accessKeyId,
+  secretAccessKey,
+  apiVersion: "2006-03-01",
 });
-
-const s3Bucket = process.env.S3_BUCKET;
-
-const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 
 const {
   validateRegisterInput,
@@ -154,7 +157,7 @@ module.exports = {
 
       // User Logo
       const { createReadStream, filename } = await logo;
-      const stream = createReadStream();
+      const fileStream = createReadStream();
 
       const { ext } = path.parse(filename);
       const randomLogoName = generateRandomString(12) + ext;
@@ -167,12 +170,11 @@ module.exports = {
       // stream.pipe(fs.createWriteStream(pathname));
 
       const uploadParams = {
-        Bucket: s3Bucket,
+        Bucket: bucketName,
         Key: randomLogoName,
-        Body: stream,
-        ContentType: filetype,
-        ACL: "public-read",
+        Body: fileStream,
       };
+
       const result = await s3.upload(uploadParams).promise();
 
       console.log(result);
