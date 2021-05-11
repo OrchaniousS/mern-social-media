@@ -185,8 +185,7 @@ module.exports = {
         password,
         createdAt: new Date().toISOString(),
         status: "online",
-        // logo: `http://localhost:5000/images/${randomLogoName}`,
-        logo,
+        logo: `https://${result.Bucket}.s3.amazonaws.com/${result.Key}.jpg`,
       });
 
       const res = await newUser.save();

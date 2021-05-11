@@ -1,4 +1,6 @@
-export default function UserCard(data, user) {
+import { RiRadioButtonLine } from "react-icons/ri";
+
+const UserCardData = (data, user) => {
   try {
     if (data) {
       for (var userX of data) {
@@ -12,4 +14,17 @@ export default function UserCard(data, user) {
   } catch (err) {
     throw new Error(err);
   }
-}
+};
+
+const UserStatus = (data, username) => {
+  for (var user of data) {
+    if (user.username === username) {
+      if (user.status === "online")
+        return <RiRadioButtonLine className="activeUser" />;
+      if (user.status === "offline")
+        return <RiRadioButtonLine className="unActiveUser" />;
+    }
+  }
+};
+
+export default { UserCardData, UserStatus };

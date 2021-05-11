@@ -10,52 +10,57 @@ function UserList() {
 
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
-  //   const userList = getUserData && <div>{console.log(getUserData)}</div>;
-
   const userStateHandler = () => setUserState((current) => !current);
 
   function usersTaken(data) {
-    if (data) {
-      return (
-        <Grid centered columns={3}>
-          <CustomPopup content="Get registerd users list">
-            <Button color="red">
-              <div className="user-list" onClick={userStateHandler}>
-                <h1>User List</h1>
-              </div>
-            </Button>
-          </CustomPopup>
+    return (
+      data && (
+        <Grid centered columns={9}>
+          <Grid.Row columns={9}>
+            <CustomPopup content="Get registerd users list">
+              <Button color="red">
+                <div className="user-list" onClick={userStateHandler}>
+                  <h1>User List</h1>
+                </div>
+              </Button>
+            </CustomPopup>
+          </Grid.Row>
           <Transition.Group duration={400}>
-            {userState && (
-              <Container>
-                {data.map(({ id, logo, status, username }) => {
-                  return (
-                    <Grid.Column
-                      key={id}
-                      style={{
-                        border: "1px solid grey",
-                        padding: "0.6rem",
-                        margin: "0.3rem",
-                        borderRadius: "0.2rem",
-                      }}
-                    >
-                      <div>
-                        <Image src={logo} />
-                        {status}
-                        {username}
-                      </div>
-                    </Grid.Column>
-                  );
-                })}
-              </Container>
-            )}
+            <Grid.Row columns={9}>
+              {userState && (
+                <>
+                  {data.map(({ id, logo, status, username }) => {
+                    return (
+                      <Grid.Column
+                        key={id}
+                        style={{
+                          border: "1px solid grey",
+                          padding: "0.6rem",
+                          margin: "0.3rem",
+                          borderRadius: "0.2rem",
+                          minWidth: "100px",
+                        }}
+                      >
+                        <Grid.Row>
+                          <Grid.Column>
+                            <Image src={logo} />
+                          </Grid.Column>
+                          <Grid.Column>{status}</Grid.Column>
+                          <Grid.Column>{username}</Grid.Column>
+                        </Grid.Row>
+                      </Grid.Column>
+                    );
+                  })}
+                </>
+              )}
+            </Grid.Row>
           </Transition.Group>
         </Grid>
-      );
-    }
+      )
+    );
   }
 
-  return usersTaken(getUserData);
+  return <>{usersTaken(getUserData)}</>;
 }
 
 export default UserList;
