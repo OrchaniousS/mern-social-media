@@ -9,6 +9,7 @@ import {
 // import gql from "graphql-tag";
 // import { useForm } from "../Util/hooks";
 
+import UserCard from "../Components/UserCard";
 import { AuthContext } from "../Context/auth";
 import { FETCH_USER_QUERY } from "../Util/graphql";
 
@@ -24,6 +25,7 @@ function User() {
     email: "",
   };
 
+  const [viewImage, setViewImage] = useState(false);
   const [values, setValues] = useState(initialState);
 
   // Future edit user option
@@ -64,7 +66,13 @@ function User() {
         <Grid.Row>
           <Header as="h2" style={{ alignItems: "center" }}>
             {values && values.username}
-            <Image size="massive" src={values && values.logo} />
+            <Image
+              size="massive"
+              onError={() => setViewImage((curr) => !curr)}
+              src={
+                values && UserCard.UserCardData(getUserData, user, viewImage)
+              }
+            />
           </Header>
         </Grid.Row>
         <Grid.Row>

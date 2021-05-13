@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { Card, Image } from "semantic-ui-react";
@@ -16,6 +16,7 @@ function PostCard({
   post: { body, createdAt, id, username, likeCount, commentCount, likes },
 }) {
   const { user } = useContext(AuthContext);
+  const [viewImage, setViewImage] = useState(false);
 
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
@@ -23,11 +24,10 @@ function PostCard({
     <Card fluid style={{ boxShadow: "0 0 0.1rem black" }}>
       <Card.Content>
         <Image
+          onError={() => setViewImage((curr) => !curr)}
           floated="right"
           size="mini"
-          src={getUserData && UserCard.UserCardData(getUserData, username)}
-          // onerror="this.src='
-          // https://react.semantic-ui.com/images/avatar/large/molly.png"
+          src={UserCard.UserCardData(getUserData, username, viewImage)}
         />
         <Card.Header style={{ margin: "auto" }}>
           {getUserData && UserCard.UserStatus(getUserData, username)} {username}

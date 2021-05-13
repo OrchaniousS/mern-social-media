@@ -14,6 +14,7 @@ import {
 } from "semantic-ui-react";
 import moment from "moment";
 
+import UserCard from "../Components/UserCard";
 import { AuthContext } from "../Context/auth";
 import LikeButton from "../Components/LikeButton";
 import DeleteButton from "../Components/DeleteButton";
@@ -32,6 +33,7 @@ function SinglePost(props) {
   };
 
   const [comment, setComment] = useState("");
+  const [viewImage, setViewImage] = useState(false);
 
   const { data: { getPost: posts } = {} } = useQuery(FETCH_POST_QUERY, {
     variables: { postId },
@@ -54,20 +56,20 @@ function SinglePost(props) {
 
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
-  function getUserLogo(data, commentUsername) {
-    if (data)
-      for (var userData of data) {
-        if (
-          (userData.username === posts.username && !commentUsername) ||
-          commentUsername === userData.username
-        ) {
-          return userData.logo;
-        }
-        if (commentUsername === userData.username) {
-          return userData.logo;
-        }
-      }
-  }
+  // function getUserLogo(data, commentUsername) {
+  //   if (data)
+  //     for (var userData of data) {
+  //       if (
+  //         (userData.username === posts.username && !commentUsername) ||
+  //         commentUsername === userData.username
+  //       ) {
+  //         return userData.logo;
+  //       }
+  //       if (commentUsername === userData.username) {
+  //         return userData.logo;
+  //       }
+  //     }
+  // }
 
   let postMarkup;
   if (!posts) {
@@ -98,7 +100,8 @@ function SinglePost(props) {
             <Button icon="image" color="red" disabled fluid />
             <Image
               style={boxShadow}
-              src={getUserLogo(getUserData)}
+              onError={() => setViewImage((curr) => !curr)}
+              src={UserCard.UserCardData(getUserData, username, viewImage)}
               size="medium"
             />
           </Grid.Column>
@@ -155,7 +158,12 @@ function SinglePost(props) {
                       <Button color="red" disabled>
                         <Image
                           style={boxShadow}
-                          src={getUserLogo(getUserData, comment.username)}
+                          onError={() => setViewImage((curr) => !curr)}
+                          src={UserCard.UserCardData(
+                            getUserData,
+                            username,
+                            viewImage
+                          )}
                           float="right"
                           size="mini"
                         />
@@ -185,7 +193,7 @@ function SinglePost(props) {
 }
 
 const SUBMIT_COMMENT_MUTATION = gql`
-  mutation($postId: String!, $body: String!) {
+  mutation ($postId: String!, $body: String!) {
     createComment(postId: $postId, body: $body) {
       id
       comments {
@@ -200,7 +208,7 @@ const SUBMIT_COMMENT_MUTATION = gql`
 `;
 
 const FETCH_POST_QUERY = gql`
-  query($postId: ID!) {
+  query ($postId: ID!) {
     getPost(postId: $postId) {
       id
       body

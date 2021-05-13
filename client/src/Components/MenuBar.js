@@ -54,7 +54,7 @@ function MenuBar() {
                     height: "20px",
                     margin: "0 0.3rem",
                   }}
-                  src={UserCard(getUserData, user)}
+                  src={UserCard.UserCardData(getUserData, user)}
                 />
               </>
             }

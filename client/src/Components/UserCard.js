@@ -1,14 +1,13 @@
 import { RiRadioButtonLine } from "react-icons/ri";
 
-const UserCardData = (data, user) => {
+const UserCardData = (data, user, state) => {
   try {
     if (data) {
       for (var userX of data) {
         if (userX.username === user.username || userX.username === user)
-          return (
-            userX.logo ||
-            "https://react.semantic-ui.com/images/avatar/large/molly.png"
-          );
+          return state
+            ? userX.logo
+            : "https://react.semantic-ui.com/images/avatar/large/molly.png";
       }
     }
   } catch (err) {
@@ -27,4 +26,9 @@ const UserStatus = (data, username) => {
   }
 };
 
-export default { UserCardData, UserStatus };
+const UserCard = {
+  UserCardData,
+  UserStatus,
+};
+
+export default UserCard;
