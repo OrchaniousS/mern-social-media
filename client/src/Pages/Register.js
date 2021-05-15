@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Button, Form } from "semantic-ui-react";
+import { Button, Form, Transition } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
@@ -40,95 +40,101 @@ function Register(props) {
 
   return (
     <div className="form-container">
-      <Form noValidate onSubmit={onSubmit} className={loading ? "loading" : ""}>
-        Register
-        <Form.Input
-          type="text"
-          value={values.username}
-          label="Username"
-          placeholder="Username"
-          name="username"
-          onChange={onChange}
-          error={errors.username ? true : false}
-          required
-          action={{
-            color: "red",
-            icon: "user",
-            disabled: true,
-          }}
-        />
-        <Form.Input
-          type="email"
-          value={values.email}
-          label="Email"
-          placeholder="Email"
-          name="email"
-          onChange={onChange}
-          error={errors.email ? true : false}
-          required
-          action={{
-            color: "red",
-            icon: "mail",
-            disabled: true,
-          }}
-        />
-        <Form.Input
-          type="password"
-          value={values.password}
-          label="Password"
-          placeholder="Password"
-          name="password"
-          onChange={onChange}
-          error={errors.password ? true : false}
-          required
-          action={{
-            color: "red",
-            icon: "key",
-            disabled: true,
-          }}
-        />
-        <Form.Input
-          type="password"
-          value={values.confirmPassword}
-          label="Confirm Password"
-          placeholder="Confirm Password"
-          name="confirmPassword"
-          onChange={onChange}
-          error={errors.confirmPassword ? true : false}
-          required
-          action={{
-            color: "red",
-            icon: "key",
-            disabled: true,
-          }}
-        />
-        <Form.Input
-          type="file"
-          accept="image/*"
-          label="Profile Image"
-          name="logo"
-          onChange={onChange}
-          error={errors.logo ? true : false}
-          required
-          action={{
-            color: "red",
-            icon: "image",
-            disabled: true,
-          }}
-        />
-        <Button type="submit" primary>
+      <Transition.Group duration={300}>
+        <Form
+          noValidate
+          onSubmit={onSubmit}
+          className={loading ? "loading" : ""}
+        >
           Register
-        </Button>
-      </Form>
-      {Object.keys(errors).length > 0 && (
-        <div className="ui error message">
-          <ul className="list">
-            {Object.values(errors).map((value) => (
-              <li key={value}>{value}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+          <Form.Input
+            type="text"
+            value={values.username}
+            label="Username"
+            placeholder="Username"
+            name="username"
+            onChange={onChange}
+            error={errors.username ? true : false}
+            required
+            action={{
+              color: "red",
+              icon: "user",
+              disabled: true,
+            }}
+          />
+          <Form.Input
+            type="email"
+            value={values.email}
+            label="Email"
+            placeholder="Email"
+            name="email"
+            onChange={onChange}
+            error={errors.email ? true : false}
+            required
+            action={{
+              color: "red",
+              icon: "mail",
+              disabled: true,
+            }}
+          />
+          <Form.Input
+            type="password"
+            value={values.password}
+            label="Password"
+            placeholder="Password"
+            name="password"
+            onChange={onChange}
+            error={errors.password ? true : false}
+            required
+            action={{
+              color: "red",
+              icon: "key",
+              disabled: true,
+            }}
+          />
+          <Form.Input
+            type="password"
+            value={values.confirmPassword}
+            label="Confirm Password"
+            placeholder="Confirm Password"
+            name="confirmPassword"
+            onChange={onChange}
+            error={errors.confirmPassword ? true : false}
+            required
+            action={{
+              color: "red",
+              icon: "key",
+              disabled: true,
+            }}
+          />
+          <Form.Input
+            type="file"
+            accept="image/*"
+            label="Profile Image"
+            name="logo"
+            onChange={onChange}
+            error={errors.logo ? true : false}
+            required
+            action={{
+              color: "red",
+              icon: "image",
+              disabled: true,
+            }}
+          />
+          <Button type="submit" primary>
+            Register
+          </Button>
+        </Form>
+        {Object.keys(errors).length > 0 && (
+          <div className="ui error message">
+            <ul className="list">
+              {Object.values(errors).map((value) => (
+                <li key={value}>{value}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </Transition.Group>
     </div>
   );
 }

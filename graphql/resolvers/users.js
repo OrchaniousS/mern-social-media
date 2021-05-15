@@ -10,12 +10,15 @@ const bucketName = process.env.AWS_BUCKET_NAME;
 const bucketRegion = process.env.AWS_BUCKET_REGION;
 const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const FILE_PERMISSION = "public-read";
 
 const s3 = new AWS.S3({
   bucketRegion,
   accessKeyId,
   secretAccessKey,
   apiVersion: "2006-03-01",
+  signatureVersion: "v4",
+  s3DisableBodySigning: true,
 });
 
 const {
@@ -173,11 +176,10 @@ module.exports = {
         Bucket: bucketName,
         Key: randomLogoName,
         Body: fileStream,
+        ACL: FILE_PERMISSION,
       };
 
       const result = await s3.upload(uploadParams).promise();
-
-      console.log(result);
 
       const newUser = new User({
         email,
@@ -185,7 +187,7 @@ module.exports = {
         password,
         createdAt: new Date().toISOString(),
         status: "online",
-        logo: `https://${result.Bucket}.s3.amazonaws.com/${result.Key}.jpg`,
+        logo: `https://${bucketName}.s3.eu-central-1.amazonaws.com/${randomLogoName}.jpg`,
       });
 
       const res = await newUser.save();
@@ -193,6 +195,7 @@ module.exports = {
       const token = generateToken(res);
 
       return {
+        result,
         ...res._doc,
         id: res._id,
         token,

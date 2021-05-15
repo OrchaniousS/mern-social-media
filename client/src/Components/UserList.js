@@ -17,7 +17,7 @@ function UserList() {
   function usersTaken(data) {
     return (
       data && (
-        <Grid container centered>
+        <Grid container centered style={{ margin: "auto" }}>
           <Grid.Row>
             <CustomPopup content="Get registerd users list">
               <Button color="red">
@@ -27,43 +27,41 @@ function UserList() {
               </Button>
             </CustomPopup>
           </Grid.Row>
-          <Transition.Group duration={400}>
-            <List divided relaxed horizontal>
+          <List horizontal>
+            <Transition.Group duration={400}>
               {userState &&
-                data.map(({ id, status, username }) => {
-                  return (
-                    <List.Item
-                      key={id}
-                      style={{
-                        border: "1px solid grey",
-                        padding: "0.5rem",
-                        margin: "1rem",
-                        borderRadius: "0.2rem",
-                        minWidth: "100px",
-                        maxWidth: "250px",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <List.Content>
-                        <List.Content floated="right">
-                          <Image
-                            size="mini"
-                            onError={() => setViewImage((curr) => !curr)}
-                            src={UserCard.UserCardData(
-                              getUserData,
-                              username,
-                              viewImage
-                            )}
-                          />
-                        </List.Content>
-                        {UserCard.UserStatus(getUserData, username)}
-                        {username}
+                data.map(({ id, status, username }) => (
+                  <List.Item
+                    key={id}
+                    style={{
+                      border: "1px solid grey",
+                      padding: "0.5rem",
+                      margin: "1rem",
+                      borderRadius: "0.2rem",
+                      minWidth: "100px",
+                      maxWidth: "250px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <List.Content>
+                      <List.Content floated="right">
+                        <Image
+                          size="mini"
+                          onError={() => setViewImage((curr) => !curr)}
+                          src={UserCard.UserCardData(
+                            getUserData,
+                            username,
+                            viewImage
+                          )}
+                        />
                       </List.Content>
-                    </List.Item>
-                  );
-                })}
-            </List>
-          </Transition.Group>
+                      {UserCard.UserStatus(getUserData, username)}
+                      {username}
+                    </List.Content>
+                  </List.Item>
+                ))}
+            </Transition.Group>
+          </List>
         </Grid>
       )
     );
