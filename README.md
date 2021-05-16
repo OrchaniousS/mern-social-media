@@ -1,6 +1,10 @@
 # Social Media App with Mern Stack & GraphQL | [Live](https://merng-social-orchan.netlify.app/)
 
-Demo social app with cool features
+MERNG Stack Social network app and website with cool features similar to other social media networks.
+
+#### Live website last updated - 24/04/21
+
+#### github repo last updated - 17/05/21
 
 # Setup:
 
@@ -11,6 +15,19 @@ Demo social app with cool features
 | `npm run serve`    | `npm start` |
 
 #
+
+# Necessary .env file variables at server side:
+
+- MONGO_URI - mongoDB uri to connect with db.
+- JWT_TOKEN - jwt token for auth.
+- PORT - local port for server
+
+##### Optional\*\* (only if you want to use Amazon S3 bucket service, if not use the local file save script instead of AWS [at graphql/resolvers/users.js])
+
+- AWS_BUCKET_NAME
+- AWS_BUCKET_REGION
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
 
 # 👨‍💻 Technologies Used:
 
@@ -37,8 +54,7 @@ Demo social app with cool features
 
 #
 
-1. Add registered user count.
+1. Add registered user count or list - Done.
 2. Add user online/offline icon - Done.
-3. Add currently online users.
-4. Add user available list.
-5. Add user personal logo.
+3. Add currently online users - TBD.
+4. Add user personal logo - Done.
