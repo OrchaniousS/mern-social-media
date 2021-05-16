@@ -47,7 +47,7 @@ function UserList() {
                       <List.Content floated="right">
                         <Image
                           size="mini"
-                          onError={() => setViewImage((curr) => !curr)}
+                          onError={() => setViewImage(true)}
                           src={UserCard.UserCardData(
                             getUserData,
                             username,

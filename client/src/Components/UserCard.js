@@ -4,11 +4,10 @@ const UserCardData = (data, user, state) => {
   try {
     if (data) {
       for (var userX of data) {
-        console.log(userX.logo);
         if (userX.username === user.username || userX.username === user)
           return state
-            ? userX.logo
-            : "https://react.semantic-ui.com/images/avatar/large/molly.png";
+            ? "https://react.semantic-ui.com/images/avatar/large/molly.png"
+            : userX.logo;
       }
     }
   } catch (err) {

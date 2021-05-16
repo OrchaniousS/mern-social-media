@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
-import { Container, Form, Grid, Header, Image } from "semantic-ui-react";
+import {
+  Container,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Button,
+} from "semantic-ui-react";
 import {
   useQuery,
   //  useMustation
@@ -17,6 +24,7 @@ function User() {
   // const userName = props.match.params.user;
   const { user } = useContext(AuthContext);
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
+  const [editUser, setEditUser] = useState(false);
 
   const initialState = {
     username: "",
@@ -60,10 +68,14 @@ function User() {
     }
   });
 
-  return user ? (
+  const userContainer = user ? (
     <Container style={{ textAlign: "center", margin: "1rem" }}>
       <Grid style={{ textAlign: "center", margin: "1rem" }} centered>
         <Grid.Row>
+          <Button
+            onClick={() => setEditUser((curr) => !curr)}
+            content={"edit user"}
+          />
           <Header as="h2" style={{ alignItems: "center" }}>
             {values && values.username}
             <Image
@@ -79,6 +91,7 @@ function User() {
           <Form>
             <Form.Field>
               <Form.Input
+                disabled={editUser}
                 icon="user"
                 type="text"
                 defaultValue={values && values.username}
@@ -127,6 +140,8 @@ function User() {
   ) : (
     <Redirect to="/" />
   );
+
+  return <>{userContainer}</>;
 }
 
 // const EDIT_USER = gql`

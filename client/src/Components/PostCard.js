@@ -24,7 +24,7 @@ function PostCard({
     <Card fluid style={{ boxShadow: "0 0 0.1rem black" }}>
       <Card.Content>
         <Image
-          onError={() => setViewImage((curr) => !curr)}
+          onError={() => setViewImage(true)}
           floated="right"
           size="mini"
           src={UserCard.UserCardData(getUserData, username, viewImage)}
