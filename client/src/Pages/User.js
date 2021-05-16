@@ -7,6 +7,7 @@ import {
   Header,
   Image,
   Button,
+  Transition,
 } from "semantic-ui-react";
 import {
   useQuery,
@@ -24,7 +25,6 @@ function User() {
   // const userName = props.match.params.user;
   const { user } = useContext(AuthContext);
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
-  const [editUser, setEditUser] = useState(false);
 
   const initialState = {
     username: "",
@@ -35,6 +35,7 @@ function User() {
 
   const [viewImage, setViewImage] = useState(false);
   const [values, setValues] = useState(initialState);
+  const [editUser, setEditUser] = useState(true);
 
   // Future edit user option
   // const initialState = {
@@ -72,69 +73,101 @@ function User() {
     <Container style={{ textAlign: "center", margin: "1rem" }}>
       <Grid style={{ textAlign: "center", margin: "1rem" }} centered>
         <Grid.Row>
-          <Button
-            onClick={() => setEditUser((curr) => !curr)}
-            content={"edit user"}
-          />
-          <Header as="h2" style={{ alignItems: "center" }}>
-            {values && values.username}
-            <Image
-              size="massive"
-              onError={() => setViewImage((curr) => !curr)}
-              src={
-                values && UserCard.UserCardData(getUserData, user, viewImage)
-              }
-            />
-          </Header>
+          <Button color="red" disabled="true">
+            <Header as="h2" style={{ alignItems: "center" }}>
+              {values && values.username}
+              <Image
+                size="massive"
+                onError={() => setViewImage((curr) => !curr)}
+                src={
+                  values && UserCard.UserCardData(getUserData, user, viewImage)
+                }
+              />
+            </Header>
+          </Button>
         </Grid.Row>
         <Grid.Row>
-          <Form>
-            <Form.Field>
-              <Form.Input
-                disabled={editUser}
-                icon="user"
-                type="text"
-                defaultValue={values && values.username}
-                label="Username"
-                placeholder="Username"
-                name="username"
-                // onChange={onChange}
-                // error={errors.username ? true : false}
-              />
-              <Form.Input
-                icon="mail"
-                type="email"
-                defaultValue={values && values.email}
-                label="Email"
-                placeholder="Email"
-                name="email"
-                disabled
-                // onChange={onChange}
-                // error={errors.username ? true : false}
-              />
-              <Form.Input
-                icon="key"
-                type="password"
-                // defaultValue={user.username}
-                label="New Password"
-                placeholder="New Password"
-                name="newPassword"
-                // onChange={onChange}
-                // error={errors.username ? true : false}
-              />
-              <Form.Input
-                icon="key"
-                type="password"
-                // defaultValue={user.username}
-                label="New Password"
-                placeholder="Confirm New Password"
-                name="confirmNewPassword"
-                // onChange={onChange}
-                // error={errors.username ? true : false}
-              />
-            </Form.Field>
-          </Form>
+          <Transition.Group animation="slide up" duration={500}>
+            {!editUser && (
+              <Form style={{ textAlign: "center", margin: "2rem" }}>
+                <Form.Field>
+                  <Form.Input
+                    disabled={editUser}
+                    icon="user"
+                    type="text"
+                    defaultValue={values && values.username}
+                    label="Username"
+                    placeholder="Username"
+                    name="username"
+                    // onChange={onChange}
+                    // error={errors.username ? true : false}
+                  />
+                  <Form.Input
+                    icon="mail"
+                    type="email"
+                    defaultValue={values && values.email}
+                    label="Email"
+                    placeholder="Email"
+                    name="email"
+                    disabled
+                    // onChange={onChange}
+                    // error={errors.username ? true : false}
+                  />
+                  <Form.Input
+                    disabled={editUser}
+                    icon="key"
+                    type="password"
+                    // defaultValue={user.username}
+                    label="New Password"
+                    placeholder="New Password"
+                    name="newPassword"
+                    // onChange={onChange}
+                    // error={errors.username ? true : false}
+                  />
+                  <Form.Input
+                    disabled={editUser}
+                    icon="key"
+                    type="password"
+                    // defaultValue={user.username}
+                    label="New Password"
+                    placeholder="Confirm New Password"
+                    name="confirmNewPassword"
+                    // onChange={onChange}
+                    // error={errors.username ? true : false}
+                  />
+                  <Form.Input
+                    disabled={editUser}
+                    icon="image"
+                    type="file"
+                    // defaultValue={user.username}
+                    label="New Image"
+                    placeholder="Confirm New Password"
+                    name="logo"
+                    // onChange={onChange}
+                    // error={errors.username ? true : false}
+                  />
+                </Form.Field>
+              </Form>
+            )}
+          </Transition.Group>
         </Grid.Row>
+        <Grid>
+          <Grid.Row>
+            <Button
+              onClick={() => setEditUser((curr) => !curr)}
+              content={"Edit user"}
+              color="red"
+              icon="edit"
+            />
+            <Button
+              type="submit"
+              content={"Save changes"}
+              color="red"
+              icon="save"
+              primary
+            />
+          </Grid.Row>
+        </Grid>
       </Grid>
     </Container>
   ) : (
