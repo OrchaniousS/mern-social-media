@@ -109,9 +109,3 @@ div.ui.one.column.grid.page-home {
   border-bottom-width: 0.2rem;
   transition: color 0.2s ease-in;
 }
-
-.form-container {
-  width: 28rem;
-  margin: auto;
-  padding: 0.1rem;
-}

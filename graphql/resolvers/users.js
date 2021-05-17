@@ -3,7 +3,7 @@ const { UserInputError } = require("apollo-server-errors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-const fs = require("fs");
+// const fs = require("fs");
 const AWS = require("aws-sdk");
 
 const bucketName = process.env.AWS_BUCKET_NAME;
@@ -158,20 +158,20 @@ module.exports = {
         });
       }
 
-      // User Logo
+      // User Logo Upload
       const { createReadStream, filename } = await logo;
       const fileStream = createReadStream();
-
       const { ext } = path.parse(filename);
       const randomLogoName = generateRandomString(12) + ext;
 
-      // Hard-drive filesystem save
+      // [Hard-drive/Locally Image Save]
       // const pathname = path.join(
       //   process.cwd(),
       //   `/public/images/${randomLogoName}`
       // );
       // stream.pipe(fs.createWriteStream(pathname));
 
+      // [Amazon S3 Bucket Image Save]
       const uploadParams = {
         Bucket: bucketName,
         Key: randomLogoName,
@@ -187,7 +187,7 @@ module.exports = {
         password,
         createdAt: new Date().toISOString(),
         status: "online",
-        logo: `https://${bucketName}.s3.eu-central-1.amazonaws.com/${randomLogoName}.jpg`,
+        logo: `https://${bucketName}.s3.eu-central-1.amazonaws.com/${randomLogoName}`,
       });
 
       const res = await newUser.save();
@@ -203,13 +203,39 @@ module.exports = {
     },
 
     // Edit existing user
-    async editUser(_, { username, password }) {
+    async editUser(_, { username, password, logo }) {
+      const { valid, errors } = validateRegisterInput(username, password, logo);
+
+      const { createReadStream, filename } = await logo;
+      const fileStream = createReadStream();
+      const { ext } = path.parse(filename);
+      const randomLogoName = generateRandomString(12) + ext;
+
+      const uploadParams = {
+        Bucket: bucketName,
+        Key: randomLogoName,
+        Body: fileStream,
+        ACL: FILE_PERMISSION,
+      };
+
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+
+      // Hash password
+      password = await bcrypt.hash(password, 12);
+
+      const result = await s3.upload(uploadParams).promise();
+
       const user = await User.findOneAndUpdate(
-        { username },
+        { username: username },
         {
           $set: {
-            username,
-            password: await bcrypt.hash(password, 12),
+            username: username && username,
+            password: password && password,
+            logo:
+              logo &&
+              `https://${bucketName}.s3.eu-central-1.amazonaws.com/${randomLogoName}`,
           },
         }
       );
@@ -224,7 +250,7 @@ module.exports = {
 
       const editedUser = await user.save();
 
-      return editedUser;
+      return { editedUser, result };
     },
   },
 };
