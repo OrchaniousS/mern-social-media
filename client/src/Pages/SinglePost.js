@@ -94,14 +94,18 @@ function SinglePost(props) {
     } = posts;
 
     postMarkup = (
-      <Grid>
+      <Grid style={{ minHeight: "150vh" }}>
         <Grid.Row>
           <Grid.Column width={3}>
             <Button icon="image" color="red" disabled fluid />
             <Image
               style={boxShadow}
               onError={() => setViewImage((curr) => !curr)}
-              src={UserCard.UserCardData(getUserData, username, viewImage)}
+              src={UserCard.SinglePostUserLogo(
+                getUserData,
+                username,
+                viewImage
+              )}
               size="medium"
             />
           </Grid.Column>
@@ -159,10 +163,11 @@ function SinglePost(props) {
                         <Image
                           style={boxShadow}
                           onError={() => setViewImage((curr) => !curr)}
-                          src={UserCard.UserCardData(
+                          src={UserCard.SinglePostUserLogo(
                             getUserData,
-                            username,
-                            viewImage
+                            comment.username,
+                            viewImage,
+                            posts
                           )}
                           float="right"
                           size="mini"
@@ -173,9 +178,15 @@ function SinglePost(props) {
                         {moment(comment.createdAt).fromNow()}
                       </Card.Meta>
                     </div>
-                    <div style={{ margin: "1rem" }}>
-                      <Card.Description>{comment.body}</Card.Description>
-                    </div>
+                    <Card.Description
+                      style={{
+                        margin: "0.1rem",
+                        display: "block",
+                        overflow: "auto",
+                      }}
+                    >
+                      {comment.body}
+                    </Card.Description>
                   </Card.Content>
                   {user && user.username === comment.username && (
                     <DeleteButton postId={id} commentId={comment.id} />

@@ -46,7 +46,7 @@ function Register(props) {
   }
 
   return (
-    <Grid textAlign="center" style={{ height: "60vh" }} verticalAlign="middle">
+    <Grid textAlign="center" style={{ height: "65vh" }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as="h2" color="red" textAlign="center">
           Create a new account

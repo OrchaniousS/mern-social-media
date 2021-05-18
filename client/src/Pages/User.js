@@ -8,6 +8,7 @@ import {
   Button,
   Transition,
   Segment,
+  Icon,
 } from "semantic-ui-react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 
@@ -18,44 +19,37 @@ import UserCard from "../Components/UserCard";
 import { AuthContext } from "../Context/auth";
 import { FETCH_USER_QUERY } from "../Util/graphql";
 
-function User() {
+function User(props) {
   // const userName = props.match.params.user;
   const { user } = useContext(AuthContext);
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
   const initialState = {
+    id: "",
     username: "",
     password: "",
     email: "",
     logo: "",
   };
 
+  const [valuesEdited, setValuesEdited] = useState(initialState);
+
   useEffect(() => {
     if (getUserData) {
-      return getUserData.filter((item) => {
-        try {
-          return (
+      try {
+        return getUserData.filter(
+          (item) =>
             user && item.username === user.username && setValuesEdited(item)
-          );
-        } catch (err) {
-          console.log(err);
-          throw new Error(err);
-        }
-      });
+        );
+      } catch (err) {
+        console.log(err);
+        throw new Error(err);
+      }
     }
   });
 
-  // Future edit user option
-  // const initialState = {
-  //   username: valuesEdited.username,
-  //   password: valuesEdited.password,
-  //   confirmPassword: valuesEdited.confirmPassword,
-  //   email: valuesEdited.email,
-  // };
-
   const [errors, setErrors] = useState({});
   const [viewImage, setViewImage] = useState(false);
-  const [valuesEdited, setValuesEdited] = useState(initialState);
   const [editUser, setEditUser] = useState(true);
 
   const { onChange, onSubmit, values } = useForm(
@@ -64,6 +58,9 @@ function User() {
   );
 
   const [editActiveUser] = useMutation(EDIT_USER, {
+    update(_) {
+      props.history.push("/");
+    },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
@@ -83,8 +80,22 @@ function User() {
             image={
               values && UserCard.UserCardData(getUserData, user, viewImage)
             }
-            header={values && valuesEdited.username}
-            meta={values && valuesEdited.email}
+            header={
+              values && (
+                <Segment>
+                  <Icon name="user" />
+                  {valuesEdited.username}
+                </Segment>
+              )
+            }
+            meta={
+              values && (
+                <Segment>
+                  <Icon name="mail" />
+                  {valuesEdited.email}
+                </Segment>
+              )
+            }
             // description="desc"
             extra={
               <Button
@@ -92,7 +103,7 @@ function User() {
                 icon="user"
                 color="red"
                 content="Regular User"
-                disabled="true"
+                disabled
               />
             }
           />
@@ -108,48 +119,64 @@ function User() {
                   content={"Edit user"}
                   color="red"
                   icon="edit"
-                  centered
                 />
               </Grid.Column>
               {!editUser && (
                 <Form
                   noValidate
-                  textAlign="center"
                   onSubmit={onSubmit}
                   style={{ maxWidth: 260, padding: "1rem" }}
                 >
                   <Form.Field>
                     <Form.Input
-                      disabled={editUser}
+                      type="text"
+                      defaultValue={valuesEdited.id}
+                      name="id"
+                      onChange={onChange}
+                      style={{ display: "none" }}
+                    />
+                    <Form.Input
+                      // readOnly
                       icon="user"
                       type="text"
-                      defaultValue={values && valuesEdited.username}
-                      label="Username"
+                      value={
+                        values.username
+                          ? values.username
+                          : valuesEdited.username
+                      }
+                      // defaultValue={valuesEdited && valuesEdited.username}
+                      label="New Username"
                       placeholder="Username"
                       name="username"
                       onChange={onChange}
                       error={errors.username ? true : false}
                     />
                     <Form.Input
+                      // readOnly
                       icon="mail"
                       type="email"
-                      defaultValue={values && valuesEdited.email}
-                      label="Email"
+                      value={values.email ? values.email : valuesEdited.email}
+                      // defaultValue={valuesEdited && valuesEdited.email}
+                      label="New Email"
                       placeholder="Email"
                       name="email"
-                      disabled
                       onChange={onChange}
-                      error={errors.username ? true : false}
+                      error={errors.email ? true : false}
                     />
                     <Form.Input
-                      disabled={editUser}
+                      // disabled={editUser}
                       icon="key"
                       type="password"
+                      value={
+                        values.password
+                          ? values.password
+                          : valuesEdited.password
+                      }
                       label="New Password"
                       placeholder="New Password"
                       name="password"
                       onChange={onChange}
-                      error={errors.username ? true : false}
+                      error={errors.password ? true : false}
                     />
                     {/* <Form.Input
                     disabled={editUser}
@@ -163,21 +190,19 @@ function User() {
                     // error={errors.username ? true : false}
                   /> */}
                     <Form.Input
-                      disabled={editUser}
                       type="file"
                       accept="image/*"
                       icon="image"
                       name="logo"
                       label="New Profile Image"
                       onChange={onChange}
-                      error={errors.username ? true : false}
+                      error={errors.logo ? true : false}
                     />
                   </Form.Field>
                   <Button
                     fluid
                     type="submit"
                     content="Save changes"
-                    color="red"
                     icon="save"
                     primary
                   />
@@ -201,13 +226,27 @@ function User() {
     <Redirect to="/" />
   );
 
-  return <>{userContainer}</>;
+  return userContainer;
 }
 
 const EDIT_USER = gql`
-  mutation editUser($username: String!, $password: String!, $logo: Upload!) {
-    editUser(username: $username, password: $password, logo: $logo) {
+  mutation editUser(
+    $id: ID!
+    $username: String
+    $email: String
+    $password: String
+    $logo: Upload
+  ) {
+    editUser(
+      id: $id
+      username: $username
+      email: $email
+      password: $password
+      logo: $logo
+    ) {
+      id
       username
+      email
       password
       logo
     }

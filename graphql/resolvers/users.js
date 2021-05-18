@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 // const fs = require("fs");
 const AWS = require("aws-sdk");
+const mongoose = require("mongoose");
 
 const bucketName = process.env.AWS_BUCKET_NAME;
 const bucketRegion = process.env.AWS_BUCKET_REGION;
@@ -203,8 +204,12 @@ module.exports = {
     },
 
     // Edit existing user
-    async editUser(_, { username, password, logo }) {
-      const { valid, errors } = validateRegisterInput(username, password, logo);
+    async editUser(_, { id, username, email, password, logo }) {
+      // const { valid, errors } = validateRegisterInput(username, password, logo);
+
+      // if (!valid) {
+      //   throw new UserInputError("Errors", { errors });
+      // }
 
       const { createReadStream, filename } = await logo;
       const fileStream = createReadStream();
@@ -218,21 +223,18 @@ module.exports = {
         ACL: FILE_PERMISSION,
       };
 
-      if (!valid) {
-        throw new UserInputError("Errors", { errors });
-      }
+      const result = await s3.upload(uploadParams).promise();
 
       // Hash password
       password = await bcrypt.hash(password, 12);
 
-      const result = await s3.upload(uploadParams).promise();
-
-      const user = await User.findOneAndUpdate(
-        { username: username },
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(id) },
         {
           $set: {
             username: username && username,
             password: password && password,
+            email: email && email,
             logo:
               logo &&
               `https://${bucketName}.s3.eu-central-1.amazonaws.com/${randomLogoName}`,
@@ -240,7 +242,7 @@ module.exports = {
         }
       );
 
-      if (user) {
+      if (updatedUser) {
         throw new UserInputError("username is taken", {
           errors: {
             username: "This username is taken",
@@ -248,9 +250,9 @@ module.exports = {
         });
       }
 
-      const editedUser = await user.save();
+      const editedUser = await updatedUser.save();
 
-      return { editedUser, result };
+      return { result, editedUser };
     },
   },
 };

@@ -15,6 +15,23 @@ const UserCardData = (data, user, state) => {
   }
 };
 
+function SinglePostUserLogo(data, commentUsername, state, posts) {
+  try {
+    if (data)
+      for (var userData of data) {
+        if (!state) {
+          if (posts && commentUsername === userData.username)
+            return userData.logo;
+          if (!posts && commentUsername === userData.username)
+            return userData.logo;
+        } else
+          return "https://react.semantic-ui.com/images/avatar/large/molly.png";
+      }
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
 const UserStatus = (data, username) => {
   for (var user of data) {
     if (user.username === username) {
@@ -28,6 +45,7 @@ const UserStatus = (data, username) => {
 
 const UserCard = {
   UserCardData,
+  SinglePostUserLogo,
   UserStatus,
 };
 

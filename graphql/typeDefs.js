@@ -49,7 +49,13 @@ module.exports = gql`
     ): User!
     login(username: String!, password: String!, status: String!): User!
     logoutUser(username: String!, status: String!): User!
-    editUser(username: String!, password: String!, logo: Upload!): User!
+    editUser(
+      id: ID!
+      username: String
+      email: String
+      password: String
+      logo: Upload
+    ): User!
     createPost(body: String!): Post!
     deletePost(postId: ID!): String!
     createComment(postId: String!, body: String!): Post!
