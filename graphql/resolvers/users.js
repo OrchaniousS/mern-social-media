@@ -6,6 +6,7 @@ const path = require("path");
 // const fs = require("fs");
 const AWS = require("aws-sdk");
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 const bucketName = process.env.AWS_BUCKET_NAME;
 const bucketRegion = process.env.AWS_BUCKET_REGION;
@@ -205,50 +206,107 @@ module.exports = {
 
     // Edit existing user
     async editUser(_, { id, username, email, password, logo }) {
-      // const { valid, errors } = validateRegisterInput(username, password, logo);
+      const { valid, errors } = validateRegisterInput(
+        username,
+        email,
+        password,
+        logo
+      );
 
-      // if (!valid) {
-      //   throw new UserInputError("Errors", { errors });
-      // }
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
 
-      const { createReadStream, filename } = await logo;
-      const fileStream = createReadStream();
-      const { ext } = path.parse(filename);
-      const randomLogoName = generateRandomString(12) + ext;
+      let result;
 
-      const uploadParams = {
-        Bucket: bucketName,
-        Key: randomLogoName,
-        Body: fileStream,
-        ACL: FILE_PERMISSION,
-      };
+      const user = await User.find({ username });
+      const users = await User.find({});
 
-      const result = await s3.upload(uploadParams).promise();
+      console.log(args);
+
+      if (!logo || logo === "" || logo === "undefined") {
+        // logo = "https://react.semantic-ui.com/images/avatar/large/molly.png";
+        logo = await user.logo;
+      } else {
+        const { createReadStream, filename } = await logo;
+        const fileStream = createReadStream();
+        const { ext } = path.parse(filename);
+        const randomLogoName = generateRandomString(12) + ext;
+
+        const uploadParams = {
+          Bucket: bucketName,
+          Key: randomLogoName,
+          Body: fileStream,
+          ACL: FILE_PERMISSION,
+        };
+
+        result = await s3.upload(uploadParams).promise();
+        logo = `https://${bucketName}.s3.eu-central-1.amazonaws.com/${randomLogoName}`;
+      }
+
+      if (users.some((user) => user.username === username)) {
+        if (username !== user.username) {
+          username = await username;
+        } else {
+          username = await user.username;
+
+          throw new UserInputError("username is taken", {
+            errors: {
+              username: "This username is taken",
+            },
+          });
+        }
+      } else {
+        username = await username;
+      }
 
       // Hash password
-      password = await bcrypt.hash(password, 12);
+      if (password === "undefined" || password === "") {
+        password = await user.password;
+      } else {
+        const match = await bcrypt.compare(password, user.password || "");
+        if (match) {
+          password = user.password;
+          throw new UserInputError("Can`t use the same password", {
+            errors: {
+              password: "Can`t use the same password",
+            },
+          });
+        } else {
+          password = await bcrypt.hash(password, 12);
+        }
+      }
+
+      if (email !== user.email) {
+        email = await email;
+      } else {
+        email = await user.email;
+        throw new UserInputError("Can`t use the same email", {
+          errors: {
+            email: "This email is taken",
+          },
+        });
+      }
 
       const updatedUser = await User.findOneAndUpdate(
-        { _id: mongoose.Types.ObjectId(id) },
+        { _id: ObjectId(id) },
         {
           $set: {
-            username: username && username,
-            password: password && password,
-            email: email && email,
-            logo:
-              logo &&
-              `https://${bucketName}.s3.eu-central-1.amazonaws.com/${randomLogoName}`,
+            username: username,
+            password: password,
+            email: email,
+            logo: logo && logo,
           },
         }
       );
 
-      if (updatedUser) {
-        throw new UserInputError("username is taken", {
-          errors: {
-            username: "This username is taken",
-          },
-        });
-      }
+      // if (updatedUser) {
+      //   throw new UserInputError("username is taken", {
+      //     errors: {
+      //       username: "This username is taken",
+      //     },
+      //   });
+      // }
 
       const editedUser = await updatedUser.save();
 

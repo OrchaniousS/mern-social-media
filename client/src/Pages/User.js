@@ -82,7 +82,7 @@ function User(props) {
             }
             header={
               values && (
-                <Segment>
+                <Segment textAlign="center">
                   <Icon name="user" />
                   {valuesEdited.username}
                 </Segment>
@@ -90,7 +90,7 @@ function User(props) {
             }
             meta={
               values && (
-                <Segment>
+                <Segment textAlign="center">
                   <Icon name="mail" />
                   {valuesEdited.email}
                 </Segment>
@@ -129,8 +129,10 @@ function User(props) {
                 >
                   <Form.Field>
                     <Form.Input
+                      readOnly
                       type="text"
-                      defaultValue={valuesEdited.id}
+                      value={(values.id = valuesEdited.id)}
+                      // defaultValue={valuesEdited.id}
                       name="id"
                       onChange={onChange}
                       style={{ display: "none" }}
@@ -140,9 +142,9 @@ function User(props) {
                       icon="user"
                       type="text"
                       value={
-                        values.username
+                        (values.username = values.username
                           ? values.username
-                          : valuesEdited.username
+                          : valuesEdited.username)
                       }
                       // defaultValue={valuesEdited && valuesEdited.username}
                       label="New Username"
@@ -155,7 +157,11 @@ function User(props) {
                       // readOnly
                       icon="mail"
                       type="email"
-                      value={values.email ? values.email : valuesEdited.email}
+                      value={
+                        (values.email = values.email
+                          ? values.email
+                          : valuesEdited.email)
+                      }
                       // defaultValue={valuesEdited && valuesEdited.email}
                       label="New Email"
                       placeholder="Email"
@@ -167,11 +173,7 @@ function User(props) {
                       // disabled={editUser}
                       icon="key"
                       type="password"
-                      value={
-                        values.password
-                          ? values.password
-                          : valuesEdited.password
-                      }
+                      value={values.password}
                       label="New Password"
                       placeholder="New Password"
                       name="password"
@@ -209,16 +211,16 @@ function User(props) {
                 </Form>
               )}
             </Transition.Group>
+            {Object.keys(errors).length > 0 && (
+              <div className="ui error message">
+                <ul className="list">
+                  {Object.values(errors).map((value) => (
+                    <li key={value}>{value}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </Segment>
-          {Object.keys(errors).length > 0 && (
-            <div className="ui error message">
-              <ul className="list">
-                {Object.values(errors).map((value) => (
-                  <li key={value}>{value}</li>
-                ))}
-              </ul>
-            </div>
-          )}
         </Grid.Row>
       </Grid>
     </Container>
@@ -231,7 +233,7 @@ function User(props) {
 
 const EDIT_USER = gql`
   mutation editUser(
-    $id: ID!
+    $id: ID
     $username: String
     $email: String
     $password: String

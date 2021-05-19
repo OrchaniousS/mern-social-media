@@ -50,7 +50,7 @@ module.exports = gql`
     login(username: String!, password: String!, status: String!): User!
     logoutUser(username: String!, status: String!): User!
     editUser(
-      id: ID!
+      id: ID
       username: String
       email: String
       password: String
