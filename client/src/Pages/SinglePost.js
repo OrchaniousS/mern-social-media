@@ -56,21 +56,6 @@ function SinglePost(props) {
 
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
-  // function getUserLogo(data, commentUsername) {
-  //   if (data)
-  //     for (var userData of data) {
-  //       if (
-  //         (userData.username === posts.username && !commentUsername) ||
-  //         commentUsername === userData.username
-  //       ) {
-  //         return userData.logo;
-  //       }
-  //       if (commentUsername === userData.username) {
-  //         return userData.logo;
-  //       }
-  //     }
-  // }
-
   let postMarkup;
   if (!posts) {
     postMarkup = (
@@ -115,7 +100,16 @@ function SinglePost(props) {
               <Card.Content>
                 <Card.Header>{username}</Card.Header>
                 <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
-                <Card.Description>{body}</Card.Description>
+                <Card.Description
+                  style={{
+                    padding: "0.2rem",
+                    minHeight: "40px",
+                    height: "auto",
+                    overflow: "auto",
+                  }}
+                >
+                  {body}
+                </Card.Description>
               </Card.Content>
               <hr />
               <Card.Content extra>

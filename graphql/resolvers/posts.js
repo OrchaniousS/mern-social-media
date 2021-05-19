@@ -33,6 +33,12 @@ module.exports = {
 
       if (body.trim() === "") {
         throw new Error("Post body must not be empty");
+        return;
+      }
+
+      if (body.length > 150) {
+        throw new Error("Post body most not excceed 150 characters");
+        return;
       }
 
       const newPost = new Post({
