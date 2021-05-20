@@ -205,11 +205,15 @@ module.exports = {
     },
 
     // Edit existing user
-    async editUser(_, { id, username, email, password, logo }) {
+    async editUser(
+      _,
+      { id, username, email, password, confirmPassword, logo }
+    ) {
       const { valid, errors } = validateRegisterInput(
         username,
         email,
         password,
+        confirmPassword,
         logo
       );
 
@@ -222,11 +226,11 @@ module.exports = {
       const user = await User.find({ username });
       const users = await User.find({});
 
-      console.log(args);
+      console.log({ logo });
 
       if (!logo || logo === "" || logo === "undefined") {
         // logo = "https://react.semantic-ui.com/images/avatar/large/molly.png";
-        logo = await user.logo;
+        logo = user.logo;
       } else {
         const { createReadStream, filename } = await logo;
         const fileStream = createReadStream();
@@ -295,7 +299,7 @@ module.exports = {
             username: username,
             password: password,
             email: email,
-            logo: logo && logo,
+            logo: logo,
           },
         }
       );

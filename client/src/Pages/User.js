@@ -28,6 +28,7 @@ function User(props) {
     id: "",
     username: "",
     password: "",
+    confirmPassword: "",
     email: "",
     logo: "",
   };
@@ -180,17 +181,17 @@ function User(props) {
                       onChange={onChange}
                       error={errors.password ? true : false}
                     />
-                    {/* <Form.Input
-                    disabled={editUser}
-                    icon="key"
-                    type="password"
-                    // defaultValue={user.username}
-                    label="New Password"
-                    placeholder="Confirm New Password"
-                    name="confirmNewPassword"
-                    // onChange={onChange}
-                    // error={errors.username ? true : false}
-                  /> */}
+                    <Form.Input
+                      // disabled={editUser}
+                      icon="key"
+                      type="password"
+                      value={values.confirmPassword}
+                      label="Confirm New Password"
+                      placeholder="New Password"
+                      name="confirmPassword"
+                      onChange={onChange}
+                      error={errors.confirmPassword ? true : false}
+                    />
                     <Form.Input
                       type="file"
                       accept="image/*"
@@ -237,6 +238,7 @@ const EDIT_USER = gql`
     $username: String
     $email: String
     $password: String
+    $confirmPassword: String
     $logo: Upload
   ) {
     editUser(
@@ -244,6 +246,7 @@ const EDIT_USER = gql`
       username: $username
       email: $email
       password: $password
+      confirmPassword: $confirmPassword
       logo: $logo
     ) {
       id

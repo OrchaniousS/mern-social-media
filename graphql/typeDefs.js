@@ -54,6 +54,7 @@ module.exports = gql`
       username: String
       email: String
       password: String
+      confirmPassword: String
       logo: Upload
     ): User!
     createPost(body: String!): Post!
