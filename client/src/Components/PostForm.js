@@ -59,25 +59,39 @@ function PostForm() {
           <Form onSubmit={onSubmit}>
             <Form.Field>
               <Grid>
-                <div>
-                  <h2>Share a post: </h2>
+                <Grid.Column>
                   <Form.Input
-                    placeholder="Your thoughts?..."
+                    placeholder="Share Your Post or Thoughts ... "
                     name="body"
                     onChange={onChange}
                     value={values.body}
                     error={error ? true : false}
+                    style={{
+                      display: "flex",
+                      minHeight: "100px",
+                      minWidth: isDesktop
+                        ? "550px"
+                        : isMobile
+                        ? "300px"
+                        : "250px",
+                      maxWidth: isDesktop
+                        ? "900px"
+                        : isMobile
+                        ? "300px"
+                        : "650px",
+                      fontSize: isDesktop ? "2vh" : isMobile ? "2.5vh" : "18px",
+                    }}
                   />
-
                   <CustomPopup type="top" content="Send you post...">
                     <Button
                       // disabled={values.body.trim() === ""}
                       icon="send"
                       type="submit"
                       color="red"
+                      fluid
                     />
                   </CustomPopup>
-                </div>
+                </Grid.Column>
               </Grid>
             </Form.Field>
           </Form>

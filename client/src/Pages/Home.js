@@ -78,9 +78,12 @@ function Home() {
         <Grid.Row>
           <UserList />
         </Grid.Row>
-        <Grid.Row className="page-home-title">
-          <h1>Recent Posts</h1>
+        <Grid.Row
+          className="page-home-title"
+          style={{ justifyContent: "center" }}
+        >
           {user && <PostForm />}
+          <h1>Recent Posts</h1>
         </Grid.Row>
         {posts && postsStatus}
       </Grid>

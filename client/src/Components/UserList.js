@@ -18,7 +18,7 @@ function UserList() {
     return (
       data && (
         <Grid container centered style={{ margin: "auto" }}>
-          <Grid.Row>
+          <Grid.Row style={{ justifyContent: "center" }}>
             <CustomPopup content="Get registerd users list">
               <Button color="red">
                 <div className="user-list" onClick={userStateHandler}>
@@ -27,7 +27,14 @@ function UserList() {
               </Button>
             </CustomPopup>
           </Grid.Row>
-          <List horizontal>
+          <List
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              height: "auto",
+              flex: "1 1 150px",
+            }}
+          >
             <Transition.Group duration={400}>
               {userState &&
                 data.map(({ id, status, username }) => (
@@ -38,15 +45,15 @@ function UserList() {
                       padding: "0.5rem",
                       margin: "1rem",
                       borderRadius: "0.2rem",
-                      minWidth: "100px",
-                      maxWidth: "250px",
+                      minWidth: "150px",
+                      maxWidth: "200px",
                       justifyContent: "center",
                     }}
                   >
                     <List.Content>
                       <List.Content floated="right">
                         <Image
-                          size="mini"
+                          style={{ width: "35px", height: "35px" }}
                           onError={() => setViewImage(true)}
                           src={UserCard.UserCardData(
                             getUserData,
