@@ -52,9 +52,19 @@ MERNG Stack Social network app and website with cool features similar to other s
 
 ## Todo:
 
-#
+## General
 
-1. Add registered user count or list - Done.
+1. User List with status - Done.
 2. Add user online/offline icon - Done.
-3. Add currently online users - TBD.
-4. Add user personal logo - Done.
+3. Add user personal logo - Done.
+4. About page.
+
+## Post
+
+1. Post can contain image, text.
+2. Change post ui.
+
+## User
+
+1. User personal page - Done.
+2. User info editable -Done.
