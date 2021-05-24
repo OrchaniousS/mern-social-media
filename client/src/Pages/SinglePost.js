@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import {
@@ -25,6 +25,20 @@ function SinglePost(props) {
   const postId = props.match.params.postId;
   const { user } = useContext(AuthContext);
   const commentInputRef = useRef(null);
+
+  const [isDesktop, setIsDesktop] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth > 769) {
+      setIsDesktop(true);
+      setIsMobile(false);
+    } else {
+      setIsMobile(true);
+      setIsDesktop(false);
+    }
+    // }
+  }, []);
 
   const boxShadow = {
     boxShadow: "0 0 0.1rem black",
@@ -81,25 +95,47 @@ function SinglePost(props) {
     postMarkup = (
       <Grid style={{ minHeight: "150vh" }}>
         <Grid.Row>
-          <Grid.Column width={3}>
-            <Button icon="image" color="red" disabled fluid />
-            <Image
-              style={boxShadow}
-              onError={() => setViewImage((curr) => !curr)}
-              src={UserCard.SinglePostUserLogo(
-                getUserData,
-                username,
-                viewImage
-              )}
-              size="medium"
-            />
-          </Grid.Column>
-          <Grid.Column width={10}>
+          {isDesktop && (
+            <Grid.Column width={3}>
+              <Button icon="image" color="red" disabled fluid />
+              <Image
+                style={boxShadow}
+                onError={() => setViewImage((curr) => !curr)}
+                src={UserCard.SinglePostUserLogo(
+                  getUserData,
+                  username,
+                  viewImage
+                )}
+                size="medium"
+              />
+            </Grid.Column>
+          )}
+
+          <Grid.Column width={isDesktop ? 13 : 16}>
             <Card fluid style={boxShadow}>
               <Button icon="user" fluid disabled color="red" />
               <Card.Content>
-                <Card.Header>{username}</Card.Header>
+                <Card.Header style={{ display: "flex", flexDirection: "row" }}>
+                  {username}
+                  {isMobile && (
+                    <Image
+                      style={{
+                        width: "15px",
+                        height: "auto",
+                        display: "flex",
+                        marginLeft: "auto",
+                      }}
+                      onError={() => setViewImage((curr) => !curr)}
+                      src={UserCard.SinglePostUserLogo(
+                        getUserData,
+                        username,
+                        viewImage
+                      )}
+                    />
+                  )}
+                </Card.Header>
                 <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
+
                 <Card.Description
                   style={{
                     padding: "0.2rem",

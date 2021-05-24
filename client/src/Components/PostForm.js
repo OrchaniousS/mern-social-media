@@ -16,16 +16,16 @@ function PostForm() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth > 769) {
-        setIsDesktop(true);
-        setIsMobile(false);
-      } else {
-        setIsMobile(true);
-        setIsDesktop(false);
-      }
+    // function handleResize() {
+    if (window.innerWidth > 769) {
+      setIsDesktop(true);
+      setIsMobile(false);
+    } else {
+      setIsMobile(true);
+      setIsDesktop(false);
     }
-    window.addEventListener("resize", handleResize);
+    // }
+    // window.addEventListener("resize", handleResize);
   }, []);
 
   const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
@@ -67,19 +67,19 @@ function PostForm() {
                     value={values.body}
                     error={error ? true : false}
                     style={{
-                      display: "flex",
                       minHeight: "100px",
+                      overflow: "auto",
                       minWidth: isDesktop
                         ? "550px"
                         : isMobile
-                        ? "300px"
+                        ? "100%"
                         : "250px",
                       maxWidth: isDesktop
                         ? "900px"
                         : isMobile
-                        ? "300px"
-                        : "650px",
-                      fontSize: isDesktop ? "2vh" : isMobile ? "2.5vh" : "18px",
+                        ? "100%"
+                        : "500px",
+                      fontSize: isDesktop ? "2vh" : isMobile ? "2.3vh" : "18px",
                     }}
                   />
                   <CustomPopup type="top" content="Send you post...">

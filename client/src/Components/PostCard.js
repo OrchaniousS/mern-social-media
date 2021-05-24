@@ -44,7 +44,7 @@ function PostCard({
         </Card.Meta>
         <Card.Description
           style={{
-            // padding: "0.2rem",
+            padding: "0.2rem",
             minHeight: "40px",
             height: "auto",
             overflow: "auto",

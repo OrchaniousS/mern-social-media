@@ -70,9 +70,11 @@ function Home() {
     <Fade big={isDesktop} cascade={isMobile}>
       <Grid
         columns={isDesktop ? 3 : isMobile ? 1 : 0}
-        style={{
-          margin: "-1rem -1rem 3rem 1rem",
-        }}
+        style={
+          {
+            // margin: "-1rem -1rem 3rem 1rem",
+          }
+        }
         className="page-home"
       >
         <Grid.Row style={{ placeContent: "center" }}>
