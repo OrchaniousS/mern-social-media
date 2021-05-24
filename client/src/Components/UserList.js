@@ -18,7 +18,7 @@ function UserList() {
     return (
       data && (
         <Grid container centered style={{ margin: "auto" }}>
-          <Grid.Row style={{ justifyContent: "center" }}>
+          <Grid.Row>
             <CustomPopup content="Get registerd users list">
               <Button color="red">
                 <div className="user-list" onClick={userStateHandler}>
@@ -31,8 +31,10 @@ function UserList() {
             style={{
               display: "flex",
               flexWrap: "wrap",
-              height: "auto",
+              maxHeight: "250px",
+              overflow: "auto",
               flex: "1 1 150px",
+              justifyContent: "center",
             }}
           >
             <Transition.Group duration={400}>
@@ -44,16 +46,19 @@ function UserList() {
                       border: "1px solid grey",
                       padding: "0.5rem",
                       margin: "1rem",
-                      borderRadius: "0.2rem",
-                      minWidth: "150px",
-                      maxWidth: "200px",
-                      justifyContent: "center",
+                      borderRadius: "0.4rem",
+                      width: "180px",
+                      alignItems: "center",
                     }}
                   >
                     <List.Content>
                       <List.Content floated="right">
                         <Image
-                          style={{ width: "35px", height: "35px" }}
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            borderRadius: "1rem",
+                          }}
                           onError={() => setViewImage(true)}
                           src={UserCard.UserCardData(
                             getUserData,
@@ -62,8 +67,10 @@ function UserList() {
                           )}
                         />
                       </List.Content>
-                      {UserCard.UserStatus(getUserData, username)}
-                      {username}
+                      <div style={{ fontSize: "0.9rem" }}>
+                        {UserCard.UserStatus(getUserData, username)}
+                        {username}
+                      </div>
                     </List.Content>
                   </List.Item>
                 ))}

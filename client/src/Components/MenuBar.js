@@ -33,7 +33,7 @@ function MenuBar() {
   };
 
   const menuBar = user ? (
-    <Menu pointing secondary size="huge" color="red">
+    <Menu pointing secondary size="large" color="red">
       <Menu.Item
         icon="home"
         name="home"
@@ -70,7 +70,7 @@ function MenuBar() {
       </Menu.Menu>
     </Menu>
   ) : (
-    <Menu pointing secondary size="massive" color="red">
+    <Menu pointing secondary size="large" color="red">
       <Menu.Item
         icon="home"
         name="home"

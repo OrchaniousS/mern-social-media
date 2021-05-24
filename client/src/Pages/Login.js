@@ -50,7 +50,10 @@ function Login(props) {
     <Grid textAlign="center" style={{ height: "60vh" }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as="h2" color="red" textAlign="center">
-          <Image src="https://camo.githubusercontent.com/5f960857e97d73e1dfa406ce5d4bee1797e1ee000a6b29210f077ed8880daecf/68747470733a2f2f6432656970397366336f6f3663322e636c6f756466726f6e742e6e65742f7365726965732f7371756172655f636f766572732f3030302f3030302f3233312f66756c6c2f4547485f41706f6c6c6f2d4772617068514c2d52656163745f46696e616c2e706e67" />
+          <Image
+            size="medium"
+            src="https://camo.githubusercontent.com/5f960857e97d73e1dfa406ce5d4bee1797e1ee000a6b29210f077ed8880daecf/68747470733a2f2f6432656970397366336f6f3663322e636c6f756466726f6e742e6e65742f7365726965732f7371756172655f636f766572732f3030302f3030302f3233312f66756c6c2f4547485f41706f6c6c6f2d4772617068514c2d52656163745f46696e616c2e706e67"
+          />
           Login into your accont
         </Header>
         <Form

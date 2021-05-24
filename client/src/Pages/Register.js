@@ -46,8 +46,8 @@ function Register(props) {
   }
 
   return (
-    <Grid textAlign="center" style={{ height: "65vh" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
+    <Grid textAlign="center" style={{ height: "68vh" }} verticalAlign="middle">
+      <Grid.Column className="register">
         <Header as="h2" color="red" textAlign="center">
           Create a new account
         </Header>
@@ -56,7 +56,7 @@ function Register(props) {
           onSubmit={onSubmit}
           className={loading ? "loading" : ""}
         >
-          <Segment stacked>
+          <Segment>
             <Form.Input
               type="text"
               value={values.username}

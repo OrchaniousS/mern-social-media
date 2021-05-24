@@ -10,11 +10,6 @@
   margin: 0;
 }
 
-#root {
-  margin: auto;
-  width: fit-content;
-}
-
 footer {
   position: fixed;
   z-index: 4;
@@ -25,8 +20,7 @@ footer {
   right: 0;
   left: 0;
   background: rgb(255, 255, 255);
-  padding: 0.51rem;
-  margin-top: 0.51rem;
+  padding: 0.4rem;
   box-shadow: 0 0 0.2rem black;
 }
 
@@ -49,15 +43,23 @@ footer {
   height: auto;
 }
 
+div.column.register {
+  max-width: 450px !important;
+}
+
 @media only screen and (max-width: 767px) {
   .ui.action.input.comment {
     max-width: 85%;
   }
 
-  .ui.container {
-    width: 100% !important;
-    margin-left: 1em !important;
-    margin-right: 1em !important;
+  div.column.register {
+    max-width: 320px !important;
+    place-content: center;
+  }
+
+  .register input,
+  .register input[type="file"] {
+    max-width: 220px !important;
   }
 }
 
@@ -92,6 +94,8 @@ div.ui.one.column.grid.page-home {
   text-align: center;
   font-size: 2rem;
 }
+
+/* User online status indication */
 
 .ui.secondary.pointing.menu .dropdown.item:hover,
 .ui.secondary.pointing.menu .link.item:hover,

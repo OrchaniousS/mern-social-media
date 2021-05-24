@@ -32,17 +32,17 @@ function Home() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth > 769) {
-        setIsDesktop(true);
-        setIsMobile(false);
-      } else {
-        setIsMobile(true);
-        setIsDesktop(false);
-      }
+    // function handleResize() {
+    if (window.innerWidth > 769) {
+      setIsDesktop(true);
+      setIsMobile(false);
+    } else {
+      setIsMobile(true);
+      setIsDesktop(false);
     }
-    window.addEventListener("resize", handleResize);
-  }, [loading]);
+    // }
+    // window.addEventListener("resize", handleResize);
+  }, []);
 
   const LoadingSegment = (
     <Segment style={{ margin: "auto" }}>
@@ -69,18 +69,18 @@ function Home() {
   return (
     <Fade big={isDesktop} cascade={isMobile}>
       <Grid
-        columns={isDesktop ? 3 : isMobile ? 1 : 2}
+        columns={isDesktop ? 3 : isMobile ? 1 : 0}
         style={{
           margin: "-1rem -1rem 3rem 1rem",
         }}
         className="page-home"
       >
-        <Grid.Row>
+        <Grid.Row style={{ placeContent: "center" }}>
           <UserList />
         </Grid.Row>
         <Grid.Row
           className="page-home-title"
-          style={{ justifyContent: "center" }}
+          style={{ placeContent: "center" }}
         >
           {user && <PostForm />}
           <h1>Recent Posts</h1>

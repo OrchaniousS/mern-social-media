@@ -21,7 +21,14 @@ function PostCard({
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
   return (
-    <Card fluid style={{ boxShadow: "0 0 0.1rem black" }}>
+    <Card
+      fluid
+      style={{
+        boxShadow: "0 0 0.1rem black",
+        maxWidth: "320px",
+        height: "auto",
+      }}
+    >
       <Card.Content>
         <Image
           onError={() => setViewImage(true)}
@@ -37,7 +44,7 @@ function PostCard({
         </Card.Meta>
         <Card.Description
           style={{
-            padding: "0.2rem",
+            // padding: "0.2rem",
             minHeight: "40px",
             height: "auto",
             overflow: "auto",

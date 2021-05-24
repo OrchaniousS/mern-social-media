@@ -5,7 +5,7 @@ function Footer() {
   const footer = (
     <footer>
       <div>
-        App created by Orchan Magramov{" "}
+        Created by Orchan Magramov
         <a href="https://www.linkedin.com/in/orchan-magramov">
           <Button size="mini" color="linkedin" icon="linkedin" />
         </a>{" "}
