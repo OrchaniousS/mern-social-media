@@ -21,14 +21,7 @@ function PostCard({
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
   return (
-    <Card
-      fluid
-      style={{
-        boxShadow: "0 0 0.1rem black",
-        maxWidth: "320px",
-        height: "auto",
-      }}
-    >
+    <Card fluid>
       <Card.Content>
         <Image
           onError={() => setViewImage(true)}

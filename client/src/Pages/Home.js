@@ -70,20 +70,15 @@ function Home() {
     <Fade big={isDesktop} cascade={isMobile}>
       <Grid
         columns={isDesktop ? 3 : isMobile ? 1 : 0}
-        style={
-          {
-            // margin: "-1rem -1rem 3rem 1rem",
-          }
-        }
-        className="page-home"
+        style={{
+          marginBottom: "3rem",
+          transition: " all 0.5s ease-in",
+        }}
       >
         <Grid.Row style={{ placeContent: "center" }}>
           <UserList />
         </Grid.Row>
-        <Grid.Row
-          className="page-home-title"
-          style={{ placeContent: "center" }}
-        >
+        <Grid.Row className="page-home-title">
           {user && <PostForm />}
           <h1>Recent Posts</h1>
         </Grid.Row>

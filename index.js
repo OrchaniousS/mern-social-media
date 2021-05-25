@@ -8,6 +8,7 @@ const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers/index");
 
 const PORT = process.env.PORT || 5000;
+const LOCAL_SERVER = true;
 
 const server = new ApolloServer({
   cors: {
@@ -23,7 +24,9 @@ const app = express();
 server.applyMiddleware({ app });
 
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: LOCAL_SERVER
+    ? "http://localhost:3000"
+    : "https://merng-social-orchan.netlify.app/",
   credentials: true,
 };
 

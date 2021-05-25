@@ -7,7 +7,7 @@ import { setContext } from "apollo-link-context";
 
 import App from "../App";
 
-const LOCAL_SERVER = false;
+const LOCAL_SERVER = true;
 
 const authLink = setContext(() => {
   const token = localStorage.getItem("jwtToken");

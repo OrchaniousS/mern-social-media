@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
-import { Button, Grid, Image, Transition, List } from "semantic-ui-react";
+import { Button, Grid, Image, Transition, List, Icon } from "semantic-ui-react";
 
 import UserCard from "./UserCard";
 import { FETCH_USER_QUERY } from "../Util/graphql";
@@ -22,7 +22,9 @@ function UserList() {
             <CustomPopup content="Get registerd users list">
               <Button color="red">
                 <div className="user-list" onClick={userStateHandler}>
-                  <h1>User List</h1>
+                  <h1>
+                    <Icon name="users" /> Users List
+                  </h1>
                 </div>
               </Button>
             </CustomPopup>

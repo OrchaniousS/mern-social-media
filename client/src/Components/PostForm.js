@@ -47,7 +47,6 @@ function PostForm() {
   const isMobileOrDesktop = {
     width: isDesktop ? "100% !important" : isMobile ? "80% !important" : "",
     margin: "auto",
-    // boxShadow: "0 0 0 0.08rem red",
     borderRadius: "0.2rem",
     padding: "1.2rem ",
   };
