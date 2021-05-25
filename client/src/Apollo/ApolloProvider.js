@@ -7,6 +7,8 @@ import { setContext } from "apollo-link-context";
 
 import App from "../App";
 
+const LOCAL_SERVER = false;
+
 const authLink = setContext(() => {
   const token = localStorage.getItem("jwtToken");
   return {
@@ -17,7 +19,9 @@ const authLink = setContext(() => {
 });
 
 const httpLink = createUploadLink({
-  uri: "http://localhost:5000/graphql",
+  uri: LOCAL_SERVER
+    ? "http://localhost:5000/graphql"
+    : "https://stormy-savannah-39391.herokuapp.com/graphql",
 });
 
 const client = new ApolloClient({
