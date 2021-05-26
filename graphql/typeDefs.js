@@ -57,6 +57,7 @@ module.exports = gql`
       confirmPassword: String
       logo: Upload
     ): User!
+    deleteUser(username: String!): User!
     createPost(body: String!): Post!
     deletePost(postId: ID!): String!
     createComment(postId: String!, body: String!): Post!

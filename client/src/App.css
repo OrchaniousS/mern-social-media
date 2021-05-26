@@ -89,6 +89,7 @@ div.column.register {
   display: block !important;
   text-align: center;
   font-size: 2rem;
+  place-content: center;
 }
 
 /* User online status indication */

@@ -52,7 +52,6 @@ function MenuBar() {
                   style={{
                     width: "15px",
                     height: "15px",
-                    margin: "0 0.3rem",
                   }}
                   src={UserCard.UserCardData(getUserData, user)}
                 />
@@ -66,12 +65,7 @@ function MenuBar() {
             to={`/users/${user.username}`}
           />
         </CustomPopup>
-        <Menu.Item
-          style={{ maxWidth: "70px" }}
-          icon="log out"
-          name="logout"
-          onClick={handleLogout}
-        />
+        <Menu.Item icon="log out" name="logout" onClick={handleLogout} />
       </Menu.Menu>
     </Menu>
   ) : (

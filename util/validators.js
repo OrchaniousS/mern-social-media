@@ -5,10 +5,17 @@ module.exports.validateRegisterInput = (
   confirmPassword,
   logo
 ) => {
+  const Filter = require("bad-words");
+  const filter = new Filter();
+
   const errors = {};
 
   if (username.trim() === "") {
     errors.username = "Username must not be empty";
+  }
+
+  if (filter.clean(username) !== username) {
+    errors.username = "Username must not include swears or bad words";
   }
 
   if (email.trim() === "") {

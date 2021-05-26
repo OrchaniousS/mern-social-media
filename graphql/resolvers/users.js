@@ -29,6 +29,7 @@ const {
 } = require("../../util/validators");
 
 const User = require("../../models/User");
+const Post = require("../../models/Post");
 
 const generateToken = (user) => {
   return jwt.sign(
@@ -315,6 +316,36 @@ module.exports = {
       const editedUser = await updatedUser.save();
 
       return { result, editedUser };
+    },
+
+    async deleteUser(_, { username }) {
+      const user = await User.findOneAndDelete(
+        { username: username },
+        function (err, docs) {
+          if (err || !docs) return console.log(err);
+          else {
+            console.log("Deleted User : ", docs);
+          }
+        }
+      );
+
+      const post = await Post.deleteMany(
+        { username: username },
+        function (err, docs) {
+          if (err || !docs) return console.log(err);
+          else {
+            console.log("Deleted Post : ", docs);
+          }
+        }
+      );
+
+      const deletedUser = await user.save();
+      const deletedPost = await post.save();
+
+      return {
+        deletedUser,
+        deletedPost,
+      };
     },
   },
 };

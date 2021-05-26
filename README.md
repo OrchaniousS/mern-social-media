@@ -57,14 +57,16 @@ MERNG Stack Social network app and website with cool features similar to other s
 1. User List with status - Done.
 2. Add user online/offline icon - Done.
 3. Add user personal logo - Done.
-4. About page.
+4. About page-TBD.
+5. Username filter for bad words - 50%.
 
 ## Post
 
-1. Post can contain image, text.
-2. Change post ui.
+1. Post can contain image, text-TBD.
+2. Change post ui - Done.
 
 ## User
 
 1. User personal page - Done.
 2. User info editable -Done.
+3. User delete option - Done.

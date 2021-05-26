@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { Card, Image } from "semantic-ui-react";
-// import { RiRadioButtonLine } from "react-icons/ri";
 import { useQuery } from "@apollo/react-hooks";
 
 import UserCard from "./UserCard";

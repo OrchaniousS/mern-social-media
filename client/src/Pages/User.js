@@ -9,6 +9,7 @@ import {
   Transition,
   Segment,
   Icon,
+  Confirm,
 } from "semantic-ui-react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 
@@ -21,7 +22,7 @@ import { FETCH_USER_QUERY } from "../Util/graphql";
 
 function User(props) {
   // const userName = props.match.params.user;
-  const { user } = useContext(AuthContext);
+  const { user, Logout } = useContext(AuthContext);
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
   const initialState = {
@@ -58,6 +59,7 @@ function User(props) {
     initialState
   );
 
+  // EDIT USER
   const [editActiveUser] = useMutation(EDIT_USER, {
     update(_) {
       props.history.push("/");
@@ -71,6 +73,17 @@ function User(props) {
   function EditUserCallBack() {
     editActiveUser();
   }
+
+  const [confirm, setConfirm] = useState(false);
+
+  // DELETE USER
+  const [deleteUser] = useMutation(DELETE_USER, {
+    update(_) {
+      setConfirm(false);
+      Logout();
+    },
+    variables: { username: valuesEdited.username },
+  });
 
   const userContainer = user ? (
     <Container style={{ textAlign: "center", margin: "1rem" }}>
@@ -114,12 +127,12 @@ function User(props) {
             <Transition.Group animation="slide down" duration={200}>
               <Grid.Column>
                 <Button
-                  style={{ minWidth: 260, maxWidth: 450 }}
+                  style={{ minWidth: 260 }}
                   fluid
                   onClick={() => setEditUser((curr) => !curr)}
-                  content={"Edit user"}
-                  color="red"
+                  content="Edit user"
                   icon="edit"
+                  color="grey"
                 />
               </Grid.Column>
               {!editUser && (
@@ -223,6 +236,22 @@ function User(props) {
             )}
           </Segment>
         </Grid.Row>
+        <Grid.Row width={16}>
+          <Segment stacked>
+            <Button
+              style={{ minWidth: 260 }}
+              color="red"
+              icon="trash"
+              content="Delete User"
+              onClick={() => setConfirm(true)}
+            />
+            <Confirm
+              open={confirm}
+              onCancel={() => setConfirm(false)}
+              onConfirm={deleteUser}
+            />
+          </Segment>
+        </Grid.Row>
       </Grid>
     </Container>
   ) : (
@@ -254,6 +283,14 @@ const EDIT_USER = gql`
       email
       password
       logo
+    }
+  }
+`;
+
+const DELETE_USER = gql`
+  mutation deleteUser($username: String!) {
+    deleteUser(username: $username) {
+      username
     }
   }
 `;

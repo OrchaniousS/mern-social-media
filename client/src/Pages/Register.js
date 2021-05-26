@@ -60,12 +60,10 @@ function Register(props) {
             <Form.Input
               type="text"
               value={values.username}
-              label="Username"
               placeholder="Username"
               name="username"
               onChange={onChange}
               error={errors.username ? true : false}
-              required
               action={{
                 color: "red",
                 icon: "user",
@@ -75,12 +73,10 @@ function Register(props) {
             <Form.Input
               type="email"
               value={values.email}
-              label="Email"
               placeholder="Email"
               name="email"
               onChange={onChange}
               error={errors.email ? true : false}
-              required
               action={{
                 color: "red",
                 icon: "mail",
@@ -90,12 +86,10 @@ function Register(props) {
             <Form.Input
               type="password"
               value={values.password}
-              label="Password"
               placeholder="Password"
               name="password"
               onChange={onChange}
               error={errors.password ? true : false}
-              required
               action={{
                 color: "red",
                 icon: "key",
@@ -105,12 +99,10 @@ function Register(props) {
             <Form.Input
               type="password"
               value={values.confirmPassword}
-              label="Confirm Password"
               placeholder="Confirm Password"
               name="confirmPassword"
               onChange={onChange}
               error={errors.confirmPassword ? true : false}
-              required
               action={{
                 color: "red",
                 icon: "key",
@@ -120,20 +112,17 @@ function Register(props) {
             <Form.Input
               type="file"
               accept="image/*"
-              label="Profile Image"
               name="logo"
               onChange={onChange}
               error={errors.logo ? true : false}
-              required
+              icon="image"
               action={{
                 color: "red",
                 icon: "image",
                 disabled: true,
               }}
             />
-            <Button type="submit" fluid color="red">
-              Register
-            </Button>
+            <Button type="submit" fluid color="red" content="Register" />
           </Segment>
         </Form>
         {Object.keys(errors).length > 0 && (
