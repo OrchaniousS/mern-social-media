@@ -115,7 +115,6 @@ function Register(props) {
               name="logo"
               onChange={onChange}
               error={errors.logo ? true : false}
-              icon="image"
               action={{
                 color: "red",
                 icon: "image",

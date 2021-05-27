@@ -339,12 +339,12 @@ module.exports = {
         }
       );
 
-      const deletedUser = await user.save();
-      const deletedPost = await post.save();
+      // const deletedUser = await user.save();
+      // const deletedPost = await post.save();
 
       return {
-        deletedUser,
-        deletedPost,
+        user,
+        post,
       };
     },
   },
