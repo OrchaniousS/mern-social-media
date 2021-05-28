@@ -70,3 +70,4 @@ MERNG Stack Social network app and website with cool features similar to other s
 1. User personal page - Done.
 2. User info editable -Done.
 3. User delete option - Done.
+4. User page with available posts - TBD.
