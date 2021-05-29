@@ -20,7 +20,7 @@ function PostCard({
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
 
   return (
-    <Card fluid>
+    <Card fluid id="usernamePost">
       <Card.Content>
         <Image
           onError={() => setViewImage(true)}
@@ -29,7 +29,8 @@ function PostCard({
           src={UserCard.UserCardData(getUserData, username, viewImage)}
         />
         <Card.Header style={{ margin: "auto" }}>
-          {getUserData && UserCard.UserStatus(getUserData, username)} {username}
+          {getUserData && UserCard.UserStatus(getUserData, username)}
+          <Link to={`/${username}`}>{username}</Link>
         </Card.Header>
         <Card.Meta as={Link} to={`/posts/${id}`}>
           {moment(createdAt).fromNow()} by {username}

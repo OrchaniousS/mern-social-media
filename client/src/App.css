@@ -1,3 +1,4 @@
+/* General */
 * {
   vertical-align: baseline;
   font-weight: inherit;
@@ -23,6 +24,8 @@ footer {
   padding: 0.4rem;
   box-shadow: 0 0 0.2rem black;
 }
+
+/* Container */
 
 .ui.container {
   padding-bottom: 1rem;
@@ -63,6 +66,25 @@ div.column.register {
   }
 }
 
+/* Posts */
+#usernamePost:hover {
+  transition: color 1s ease-in;
+  border: 0.1rem solid dodgerblue;
+  transform: scale(1.02);
+  box-shadow: 0 0 0.1rem black;
+}
+
+#usernamePost a:hover {
+  color: dodgerblue;
+}
+
+#usernamePost a {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.888);
+}
+
+/* User online status indication */
+
 .activeUser {
   color: green;
   animation: Spin 2s infinite;
@@ -91,8 +113,6 @@ div.column.register {
   font-size: 2rem;
   place-content: center;
 }
-
-/* User online status indication */
 
 .ui.secondary.pointing.menu .dropdown.item:hover,
 .ui.secondary.pointing.menu .link.item:hover,
