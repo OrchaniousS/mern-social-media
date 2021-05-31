@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Container } from "semantic-ui-react";
 
 import { AuthProvider } from "./Context/auth";
@@ -20,20 +20,29 @@ import "./App.css";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Container>
-          <MenuBar />
-          <Route exact path="/" component={Home} />
-          <AuthRoute exact type="User" path="/users/:user" component={User} />
-          <AuthRoute exact path="/login" component={Login} />
-          <AuthRoute exact path="/register" component={Register} />
-          <Route exact path="/posts/:postId" component={SinglePost} />
-          <Route exact path="/:user" component={Users} />
-          <Footer />
-        </Container>
-      </Router>
-    </AuthProvider>
+    <>
+      <AuthProvider>
+        <Router>
+          <Container>
+            <MenuBar />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <AuthRoute
+                exact
+                type="User"
+                path="/users/:user"
+                component={User}
+              />
+              <AuthRoute exact path="/login" component={Login} />
+              <AuthRoute exact path="/register" component={Register} />
+              <Route exact path="/posts/:postId" component={SinglePost} />
+              <Route exact path="/:user" component={Users} />
+            </Switch>
+            <Footer />
+          </Container>
+        </Router>
+      </AuthProvider>
+    </>
   );
 }
 

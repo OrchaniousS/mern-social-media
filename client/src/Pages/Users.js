@@ -1,6 +1,15 @@
 import React, { useContext } from "react";
 import { useQuery } from "@apollo/react-hooks";
-import { Grid, Dimmer, Loader, Image, Segment } from "semantic-ui-react";
+import {
+  Card,
+  Grid,
+  Dimmer,
+  Loader,
+  Image,
+  Segment,
+  Header,
+} from "semantic-ui-react";
+import moment from "moment";
 
 import { FETCH_USER_QUERY, FETCH_POSTS_QUERY } from "../Util/graphql";
 import { AuthContext } from "../Context/auth";
@@ -25,12 +34,6 @@ export default function Users(props) {
 
   console.log(getPostsData);
 
-  posts = getPostsData
-    ? getPostsData
-        .filter((item) => item.username === singleUserName)
-        .map((userPost) => <Grid key={userPost.id}></Grid>)
-    : LoadingSegment;
-
   users = (
     <Grid style={{ margin: "auto" }}>
       <Segment style={{ margin: "auto" }}>
@@ -46,6 +49,31 @@ export default function Users(props) {
           : LoadingSegment}
       </Segment>
     </Grid>
+  );
+
+  posts = (
+    <Segment style={{ margin: "auto", marginTop: 40 }}>
+      <Header as="h1"> User Posts</Header>
+      <Grid style={{ margin: "auto", marginTop: 40 }} columns={3}>
+        {getPostsData
+          ? getPostsData
+              .filter((item) => item.username === singleUserName)
+              .map((userPost) => (
+                <Grid.Column>
+                  <Card fluid>
+                    <Card.Content>
+                      <Card.Header>{userPost.username}</Card.Header>
+                      <Card.Meta>
+                        {moment(userPost.createdAt).fromNow()}
+                      </Card.Meta>
+                      <Card.Description>{userPost.body}</Card.Description>
+                    </Card.Content>
+                  </Card>
+                </Grid.Column>
+              ))
+          : LoadingSegment}
+      </Grid>
+    </Segment>
   );
 
   return (
