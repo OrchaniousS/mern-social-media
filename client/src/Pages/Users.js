@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import {
-  Card,
+  Container,
   Grid,
   Dimmer,
   Loader,
@@ -9,16 +9,27 @@ import {
   Segment,
   Header,
 } from "semantic-ui-react";
-import moment from "moment";
 
 import { FETCH_USER_QUERY, FETCH_POSTS_QUERY } from "../Util/graphql";
-import { AuthContext } from "../Context/auth";
+import PostCard from "../Components/PostCard";
 
 export default function Users(props) {
   const singleUserName = props.match.url.split("/")[1];
-  const { user } = useContext(AuthContext);
   const { data: { getUsers: getUserData } = {} } = useQuery(FETCH_USER_QUERY);
   const { data: { getPosts: getPostsData } = {} } = useQuery(FETCH_POSTS_QUERY);
+
+  const [isDesktop, setIsDesktop] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth > 769) {
+      setIsDesktop(true);
+      setIsMobile(false);
+    } else {
+      setIsMobile(true);
+      setIsDesktop(false);
+    }
+  }, []);
 
   const LoadingSegment = (
     <Grid>
@@ -32,54 +43,51 @@ export default function Users(props) {
   let users;
   let posts;
 
-  console.log(getPostsData);
-
   users = (
-    <Grid style={{ margin: "auto" }}>
-      <Segment style={{ margin: "auto" }}>
-        {getUserData
-          ? getUserData
-              .filter((item) => item.username === singleUserName)
-              .map((user) => (
-                <Grid.Column key={user.username}>
-                  <Grid.Row>{user.username}</Grid.Row>
-                  <Grid.Row>{user.email}</Grid.Row>
-                </Grid.Column>
-              ))
-          : LoadingSegment}
-      </Segment>
+    <Grid style={{ margin: "auto", marginTop: 30 }} centered>
+      {getUserData
+        ? getUserData
+            .filter((item) => item.username === singleUserName)
+            .map((user) => (
+              <Header key={user.username} textAlign="center" as="h1">
+                {user.username}
+              </Header>
+            ))
+        : LoadingSegment}
     </Grid>
   );
 
-  posts = (
-    <Segment style={{ margin: "auto", marginTop: 40 }}>
-      <Header as="h1"> User Posts</Header>
-      <Grid style={{ margin: "auto", marginTop: 40 }} columns={3}>
+  posts = getPostsData ? (
+    getPostsData.filter((item) => item.username === singleUserName).length >
+    1 ? (
+      <Grid
+        divided="vertically"
+        style={{ marginTop: 40 }}
+        columns={isDesktop ? 3 : isMobile ? 1 : 0}
+      >
         {getPostsData
-          ? getPostsData
-              .filter((item) => item.username === singleUserName)
-              .map((userPost) => (
-                <Grid.Column>
-                  <Card fluid>
-                    <Card.Content>
-                      <Card.Header>{userPost.username}</Card.Header>
-                      <Card.Meta>
-                        {moment(userPost.createdAt).fromNow()}
-                      </Card.Meta>
-                      <Card.Description>{userPost.body}</Card.Description>
-                    </Card.Content>
-                  </Card>
-                </Grid.Column>
-              ))
-          : LoadingSegment}
+          .filter((item) => item.username === singleUserName)
+          .map((post) => (
+            <Grid.Column>
+              <PostCard post={post} />
+            </Grid.Column>
+          ))}
       </Grid>
-    </Segment>
+    ) : (
+      <Segment style={{ margin: "auto", marginTop: 40 }}>
+        <Header textAlign="center" as="h1">
+          This user has no posts yet!
+        </Header>
+      </Segment>
+    )
+  ) : (
+    LoadingSegment
   );
 
   return (
-    <>
+    <Container style={{ marginBottom: 30 }}>
       {users}
       {posts}
-    </>
+    </Container>
   );
 }

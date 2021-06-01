@@ -66,19 +66,52 @@ div.column.register {
   }
 }
 
+/* User List */
+#userList {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 250px;
+  overflow: auto;
+  flex: "1 1 150px";
+  justify-content: "center";
+}
+
+#userList .item {
+  border: 1px solid rgba(0, 0, 0, 0.747);
+  margin: 1rem;
+  padding: 0.8rem;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 180px;
+  width: 180px;
+  border-radius: 0.4rem;
+}
+
+#userList .item > div {
+  justify-content: space-between;
+}
+
+#userList .item img {
+  width: 25px;
+  height: 25px;
+  border-radius: 1rem;
+}
+
 /* Posts */
 #usernamePost:hover {
   transition: color 1s ease-in;
-  border: 0.1rem solid dodgerblue;
+  border: 0.1rem solid rgba(30, 143, 255, 0.411);
   transform: scale(1.02);
-  box-shadow: 0 0 0.1rem black;
+  box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.623);
 }
 
-#usernamePost a:hover {
+#usernamePost a:hover,
+#userList a:hover {
   color: dodgerblue;
 }
 
-#usernamePost a {
+#usernamePost a,
+#userList a {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.888);
 }

@@ -32,7 +32,6 @@ function Home() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // function handleResize() {
     if (window.innerWidth > 769) {
       setIsDesktop(true);
       setIsMobile(false);
@@ -40,8 +39,6 @@ function Home() {
       setIsMobile(true);
       setIsDesktop(false);
     }
-    // }
-    // window.addEventListener("resize", handleResize);
   }, []);
 
   const LoadingSegment = (

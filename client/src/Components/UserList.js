@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { Button, Grid, Image, Transition, List, Icon } from "semantic-ui-react";
 
@@ -29,38 +30,14 @@ function UserList() {
               </Button>
             </CustomPopup>
           </Grid.Row>
-          <List
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              maxHeight: "250px",
-              overflow: "auto",
-              flex: "1 1 150px",
-              justifyContent: "center",
-            }}
-          >
+          <List id="userList">
             <Transition.Group duration={400}>
               {userState &&
-                data.map(({ id, status, username }) => (
-                  <List.Item
-                    key={id}
-                    style={{
-                      border: "1px solid grey",
-                      padding: "0.5rem",
-                      margin: "1rem",
-                      borderRadius: "0.4rem",
-                      width: "180px",
-                      alignItems: "center",
-                    }}
-                  >
+                data.map(({ id, username }) => (
+                  <List.Item key={id}>
                     <List.Content>
                       <List.Content floated="right">
                         <Image
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            borderRadius: "1rem",
-                          }}
                           onError={() => setViewImage(true)}
                           src={UserCard.UserCardData(
                             getUserData,
@@ -69,10 +46,8 @@ function UserList() {
                           )}
                         />
                       </List.Content>
-                      <div style={{ fontSize: "0.9rem" }}>
-                        {UserCard.UserStatus(getUserData, username)}
-                        {username}
-                      </div>
+                      {UserCard.UserStatus(getUserData, username)}
+                      <Link to={`/${username}`}>{username}</Link>
                     </List.Content>
                   </List.Item>
                 ))}
